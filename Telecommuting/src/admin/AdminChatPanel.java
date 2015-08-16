@@ -11,7 +11,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
-
+// 바뀐거 확인용
 public class AdminChatPanel extends JPanel {
 	private JTextField textField_sentence; // 대화 입력 텍스트 필드
 	private JTextField textField_portnum; // 포트 번호 입력 테스트 필드
