@@ -5,12 +5,17 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class ConnectDatabase {
+	
+	public Connection con;
+	
+	public ConnectDatabase() {
+		makeConnection();
+	}
 
-	public static Connection makeConnection() {
+	public void makeConnection() {
 		String url = "jdbc:mysql://localhost:3306/javaproject";
 		String id = "root";
 		String password = "1006";
-		Connection con = null;
 
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
@@ -23,11 +28,11 @@ public class ConnectDatabase {
 			System.out.println("연결에 실패하였습니다.");
 		}
 
-		return con;
 	}
 
 	public static void main(String[] args) {
-		Connection con = makeConnection();
+		ConnectDatabase dbConnect = new ConnectDatabase(); // 생성자 호출을 통한 DB 연결
+		new SQLSelect(dbConnect.con, "select * from attendance"); // 쿼리 실행
 	}
 
 }
