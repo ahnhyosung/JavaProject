@@ -67,7 +67,7 @@ public class AdminSearchPanel extends JPanel {
 		table.setAutoCreateRowSorter(true);
 		table.setModel(new DefaultTableModel(new Object[][] {
 				{ "양우정", "2015/08/14", "조퇴" }, { "이상근", "2015/08/14", "O" },
-				{ "우정현", "2015/08/14", "결석" }, { "안효성", "2015/08/14", "O" }, },
+				{ "유정현", "2015/08/14", "결석" }, { "안효성", "2015/08/14", "O" }, },
 				new String[] { "이름", "날짜(Date)", "출결상태" }));
 
 	}
