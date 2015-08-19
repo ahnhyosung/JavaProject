@@ -12,6 +12,7 @@ public class ConnectDatabase {
 		makeConnection();
 	}
 // TEST!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	//eeeeeeeeeeee!!
 	public void makeConnection() {
 		String url = "jdbc:mysql://localhost:3306/javaproject";
 		String id = "root";
