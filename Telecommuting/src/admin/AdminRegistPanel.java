@@ -33,18 +33,10 @@ public class AdminRegistPanel extends JPanel {
 		button_regist.addActionListener(new AdminActionListener());
 		button_regist.setBounds(151, 108, 97, 23);
 		add(button_regist);
-
-		JButton btnNewButton_1 = new JButton("");
-		btnNewButton_1.setBounds(48, 174, 291, 387);
-		add(btnNewButton_1);
-
-		JButton button = new JButton("");
-		button.setBounds(357, 174, 291, 387);
-		add(button);
-
-		JButton button_1 = new JButton("");
-		button_1.setBounds(660, 174, 291, 387);
-		add(button_1);
+		
+		JPanel panel = new JPanel();
+		panel.setBounds(57, 164, 805, 452);
+		add(panel);
 
 	}
 
