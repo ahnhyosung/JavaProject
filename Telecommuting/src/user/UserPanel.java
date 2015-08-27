@@ -3,6 +3,8 @@ package user;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -16,6 +18,8 @@ import main.MainFrame;
 public class UserPanel extends JPanel {
 
 	private JButton button_gotowork; // 출근 버튼
+	public JPanel panel;
+	
 
 	/**
 	 * Create the panel.
@@ -23,8 +27,12 @@ public class UserPanel extends JPanel {
 	public UserPanel() {
 		setLayout(null);
 		setBackground(Color.WHITE);
+		
+		
 
-		JPanel panel = new FaceTrackingView();
+		panel = new FaceTrackingView();
+		
+		
 		panel.setBounds(120, 10, 650, 599);
 		add(panel);
 
@@ -40,6 +48,7 @@ public class UserPanel extends JPanel {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			if (e.getSource() == button_gotowork) { // 출근 버튼을 누를 시
+				FaceTrackingView.closeCamera();
 				
 				new FileClient();
 				

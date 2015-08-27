@@ -39,7 +39,7 @@ public class FaceTrackingView extends JPanel {
 	public static boolean saveFlag = false;
 
 	public static Timer drawingTimer;
-	private HCamera cameraHandle;
+	private static HCamera cameraHandle;
 
 	public FaceTrackingView() {
 
@@ -146,7 +146,7 @@ public class FaceTrackingView extends JPanel {
 		drawingTimer.start();
 	}
 
-	public void closeCamera() {
+	public static void closeCamera() {
 		FSDKCam.CloseVideoCamera(cameraHandle);
 		FSDKCam.FinalizeCapturing();
 		FSDK.Finalize();
