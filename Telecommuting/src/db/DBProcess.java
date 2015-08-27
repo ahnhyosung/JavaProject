@@ -22,7 +22,8 @@ public class DBProcess {
 
 	public Connection con;
 
-	public static String[] tempImage = { "test_1.jpg", "test_2.jpg", "test_3.jpg" };
+	public static String[] tempImage = { "test_1.jpg", "test_2.jpg",
+			"test_3.jpg" };
 
 	public DBProcess() {
 		makeConnection();
@@ -60,8 +61,6 @@ public class DBProcess {
 			PreparedStatement pstmt = con
 					.prepareStatement("insert into user values(?,?,?)");
 
-			
-
 			pstmt.setString(1, id);
 			pstmt.setString(2, name);
 			System.out.println(name);
@@ -71,6 +70,8 @@ public class DBProcess {
 
 			pstmt.close();
 			fis.close();
+
+			
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -86,28 +87,28 @@ public class DBProcess {
 			String query = "select user_code, image from user";
 			Statement stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery(query);
-			
+
 			int num = 1;
-			
+
 			InputStream is = null;
 			FileOutputStream fos = null;
-			
+
 			while (rs.next()) {
-				
+
 				String user_code = rs.getString(1);
 				is = rs.getBinaryStream("image");
-				
+
 				switch (flag) {
 				case 0:
-					fos = new FileOutputStream(
-							"C:\\Temp\\" + user_code + "_" + num + ".jpg");
+					fos = new FileOutputStream("C:\\Temp\\" + user_code + "_"
+							+ num + ".jpg");
 					break;
 				case 1:
-					fos = new FileOutputStream(
-							"C:\\Temp\\facematch\\" + user_code + "_" + num + ".jpg");
+					fos = new FileOutputStream("C:\\Temp\\facematch\\"
+							+ user_code + "_" + num + ".jpg");
 					break;
 				}
-				
+
 				byte[] buff = new byte[8192];
 				int len;
 
@@ -116,12 +117,11 @@ public class DBProcess {
 				}
 				num++;
 			}
-			
+
 			fos.close();
 			is.close();
 			rs.close();
 			stmt.close();
-			
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -140,7 +140,7 @@ public class DBProcess {
 		}
 		return idNum;
 	}
-	
+
 	public void fileIO(String name, int count) {
 		InputStream in;
 		try {
@@ -168,19 +168,18 @@ public class DBProcess {
 
 		if (count == 3) {
 			fileReady(name);
-			pullImage();
 		}
 	}
-	
+
 	public void pullImage() {
 		selectUser(0);
 	}
-	
+
 	public void fileReady(String name) {
 		String id = createUniqueID();
 		for (String str : tempImage) {
 			File f = new File("C:\\Temp\\" + str);
-			
+
 			insertUser(id, name, f);
 		}
 
