@@ -14,16 +14,23 @@ import java.io.OutputStream;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import main.MainFrame;
+import db.DBProcess;
 import Luxand.FSDK;
 
 public class AdminRegistPanel extends JPanel {
 	private JTextField textField_name; // 이름 텍스트 필드
 	private JButton button_regist; // 얼굴 등록 버튼
 
-	private int count = 1;
+	public DBProcess dbproc;
+
+	private int count;
+	public static String[] tempImage = { "test_1.jpg", "test_2.jpg",
+			"test_3.jpg" };
 
 	/**
 	 * Create the panel.
@@ -49,13 +56,14 @@ public class AdminRegistPanel extends JPanel {
 		JPanel panel = new FaceTrackingView();
 		panel.setBounds(187, 10, 780, 599);
 		add(panel);
-		
-		String[] tempImage = {"test_1.jpg", "test_2.jpg", "test_3.jpg"};
+
 		for (String str : tempImage) {
 			File f = new File("C:\\Temp\\" + str);
 			f.delete();
 		}
-		
+
+		dbproc = new DBProcess();
+
 	}
 
 	class AdminActionListener implements ActionListener {
@@ -63,42 +71,26 @@ public class AdminRegistPanel extends JPanel {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			if (e.getSource() == button_regist) { // 파일 메뉴의 등록 아이템 선택 시
+				if (!textField_name.getText().isEmpty()) {
+					textField_name.setEnabled(false);
 
-					System.out.println("패턴 등록 완료!");
-
-					InputStream in;
-					try {
-						in = new FileInputStream("C:\\Temp\\test.jpg");
-						OutputStream out = new FileOutputStream(
-								"C:\\Temp\\test" + "_" + count + ".jpg");
-
-						int bData;
-
-						while (true) {
-							bData = in.read();
-							if (bData == -1)
-								break;
-
-							out.write(bData);
-						}
-						in.close();
-						out.close();
-
-					} catch (FileNotFoundException e1) {
-						e1.printStackTrace();
-					} catch (IOException e1) {
-						e1.printStackTrace();
-					}
-					
 					count++;
-					
-					if (count == 4) {
-						button_regist.setEnabled(false);
-						textField_name.setEnabled(false);
+					if (count < 4) {
+						
+						dbproc.fileIO(textField_name.getText(), count);
+						
+						if (count == 3) {
+							button_regist.setEnabled(false);
+							dbproc.closeCon();
+							count = 1;
+						}
 					}
-					
+
+				} else {
+					JOptionPane.showMessageDialog(MainFrame.frame,
+							"이름을 입력해주세요!", "경고", JOptionPane.WARNING_MESSAGE);
+				}
 			}
 		}
-
 	}
 }

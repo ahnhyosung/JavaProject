@@ -47,7 +47,7 @@ public class FileServer implements Runnable {
 			
 				InputStream in = socket.getInputStream();
 				FileOutputStream out = new FileOutputStream(
-						"C:\\temp\\in.jpg");
+						"C:\\Temp\\in.jpg");
 
 				byte[] buffer = new byte[10000];
 				int bytesRead = 0;
