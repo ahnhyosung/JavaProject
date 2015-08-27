@@ -48,13 +48,16 @@ public class UserPanel extends JPanel {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			if (e.getSource() == button_gotowork) { // 출근 버튼을 누를 시
-				FaceTrackingView.closeCamera();
+//				FaceTrackingView.closeCamera();
 				
 				new FileClient();
 				
 				System.out.println("출근!");
 
 				MainFrame.frame.setJMenuBar(new UserMenuBar());
+				
+				FaceTrackingView.drawingTimer.stop();
+				
 				MainFrame.contentPane.removeAll();
 				MainFrame.contentPane.repaint();
 				MainFrame.frame.setTitle("재택근무관리 프로그램 (사용자)");

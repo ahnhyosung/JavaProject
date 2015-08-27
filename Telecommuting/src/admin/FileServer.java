@@ -1,20 +1,21 @@
 package admin;
 
-import java.io.BufferedOutputStream;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import Luxand.FSDK;
+import db.DBProcess;
+
 public class FileServer implements Runnable {
 	private final int PORT = 9999;
+	public static DBProcess dbproc;
 
-//	public FileServer() {
-//		new Thread(new FileServer()).start();
-//	}
+	public FileServer() {
+		dbproc = new DBProcess();
+	}
 
 	public void run() {
 		ServerSocket s = null;
@@ -26,6 +27,7 @@ public class FileServer implements Runnable {
 
 		while (s != null) {
 			try {
+				System.out.println("클라이언트 대기중");
 				Socket client = s.accept();
 				System.out.println("client = " + client.getInetAddress());
 				new Thread(new FileServerClient(client)).start();
@@ -47,7 +49,7 @@ public class FileServer implements Runnable {
 			
 				InputStream in = socket.getInputStream();
 				FileOutputStream out = new FileOutputStream(
-						"C:\\Temp\\in.jpg");
+						"C:\\Temp\\facematch\\in.jpg");
 
 				byte[] buffer = new byte[10000];
 				int bytesRead = 0;
@@ -56,6 +58,14 @@ public class FileServer implements Runnable {
 				}
 				out.flush();
 				out.close();
+				
+				dbproc.selectUser(1);
+				dbproc.closeCon();
+				
+				
+				
+				
+				
 			} catch (IOException e) {
 				e.printStackTrace();
 			} finally {

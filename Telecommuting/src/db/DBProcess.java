@@ -81,7 +81,7 @@ public class DBProcess {
 		}
 	}
 
-	public void selectUser() {
+	public void selectUser(int flag) {
 		try {
 			String query = "select user_code, image from user";
 			Statement stmt = con.createStatement();
@@ -96,8 +96,18 @@ public class DBProcess {
 				
 				String user_code = rs.getString(1);
 				is = rs.getBinaryStream("image");
-				fos = new FileOutputStream(
-						"C:\\Temp\\" + user_code + "_" + num + ".jpg");
+				
+				switch (flag) {
+				case 0:
+					fos = new FileOutputStream(
+							"C:\\Temp\\" + user_code + "_" + num + ".jpg");
+					break;
+				case 1:
+					fos = new FileOutputStream(
+							"C:\\Temp\\facematch\\" + user_code + "_" + num + ".jpg");
+					break;
+				}
+				
 				byte[] buff = new byte[8192];
 				int len;
 
@@ -163,9 +173,7 @@ public class DBProcess {
 	}
 	
 	public void pullImage() {
-		DBProcess conDb = new DBProcess();
-
-		conDb.selectUser();
+		selectUser(0);
 	}
 	
 	public void fileReady(String name) {

@@ -8,6 +8,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import admin.TFaceRecord;
+
 public class MainFrame extends JFrame {
 
 	public static MainFrame frame; // 메인 Frame
@@ -34,6 +36,7 @@ public class MainFrame extends JFrame {
 	 */
 	public MainFrame() {
 		setTitle("재택근무관리 프로그램");
+		new TFaceRecord().menuEnrollFace();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(200, 50, 1000, 650);
 

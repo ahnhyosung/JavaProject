@@ -27,7 +27,7 @@ public class FileClient {
 		Socket s = new Socket();
 		
 		try {
-			s.connect( new InetSocketAddress("172.168.0.58", 9999) );
+			s.connect( new InetSocketAddress("172.30.27.117", 9999) );
 			BufferedOutputStream out = new BufferedOutputStream(
 					s.getOutputStream());
 			FileInputStream fileIn = new FileInputStream(

@@ -82,7 +82,6 @@ public class AdminRegistPanel extends JPanel {
 						if (count == 3) {
 							button_regist.setEnabled(false);
 							dbproc.closeCon();
-							count = 1;
 						}
 					}
 
