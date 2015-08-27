@@ -54,14 +54,7 @@ public class UserPanel extends JPanel {
 				
 				System.out.println("출근!");
 
-				MainFrame.frame.setJMenuBar(new UserMenuBar());
 				
-				FaceTrackingView.drawingTimer.stop();
-				
-				MainFrame.contentPane.removeAll();
-				MainFrame.contentPane.repaint();
-				MainFrame.frame.setTitle("재택근무관리 프로그램 (사용자)");
-				MainFrame.frame.setVisible(true);
 			}
 		}
 

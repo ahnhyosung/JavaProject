@@ -37,9 +37,7 @@ public class MainFrame extends JFrame {
 	public MainFrame() {
 		setTitle("재택근무관리 프로그램");
 		////////////////////////////////////////////
-		TFaceRecord tRecode = new TFaceRecord();
-		tRecode.menuEnrollFace();
-		tRecode.menuMatchFace();
+		
 		////////////////////////////////////////////
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(200, 50, 1000, 650);

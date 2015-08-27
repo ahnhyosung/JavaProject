@@ -62,9 +62,9 @@ public class FileServer implements Runnable {
 				dbproc.selectUser(1);
 				dbproc.closeCon();
 				
-				
-				
-				
+				TFaceRecord tRecode = new TFaceRecord();
+				tRecode.menuEnrollFace();
+				tRecode.menuMatchFace();
 				
 			} catch (IOException e) {
 				e.printStackTrace();

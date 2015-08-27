@@ -7,6 +7,8 @@ import java.util.Comparator;
 
 import javax.swing.JOptionPane;
 
+import main.MainFrame;
+import user.UserMenuBar;
 import Luxand.FSDK;
 import Luxand.FSDK.HImage;
 import Luxand.FSDK.TFacePosition;
@@ -26,20 +28,30 @@ public class TFaceRecord {
 	public static final int width = 640;
 	public static final int height = 480;
 	
+	public File f;
+
 	public TFaceRecord() {
 		try {
-            int r = FSDK.ActivateLibrary("bPOFbM5ekk9uCr9x75NEbpkV8UsG/NAoExxkGAk+POsNvUVdz0IdfXKog23Y89TnCneozsWdtKoaj2J2OdM9q9iNuUgTBU10gLNqcnUvxeuKZDcGzfaUmyUCIkqfnE/MbLpIuprI8Bvauj2B5NU6xu3trvDnhszFPA2/JyKdstk=");
-            if (r != FSDK.FSDKE_OK){
-               JOptionPane.showMessageDialog(main.MainFrame.frame, "Please run the License Key Wizard (Start - Luxand - FaceSDK - License Key Wizard)", "Error activating FaceSDK", JOptionPane.ERROR_MESSAGE); 
-               System.exit(r);
-            }
-        } 
-        catch(java.lang.UnsatisfiedLinkError e) {
-            JOptionPane.showMessageDialog(main.MainFrame.frame, e.toString(), "Link Error", JOptionPane.ERROR_MESSAGE);
-            System.exit(1);
-        } 
-		
+			int r = FSDK
+					.ActivateLibrary("bPOFbM5ekk9uCr9x75NEbpkV8UsG/NAoExxkGAk+POsNvUVdz0IdfXKog23Y89TnCneozsWdtKoaj2J2OdM9q9iNuUgTBU10gLNqcnUvxeuKZDcGzfaUmyUCIkqfnE/MbLpIuprI8Bvauj2B5NU6xu3trvDnhszFPA2/JyKdstk=");
+			if (r != FSDK.FSDKE_OK) {
+				JOptionPane
+						.showMessageDialog(
+								main.MainFrame.frame,
+								"Please run the License Key Wizard (Start - Luxand - FaceSDK - License Key Wizard)",
+								"Error activating FaceSDK",
+								JOptionPane.ERROR_MESSAGE);
+				System.exit(r);
+			}
+		} catch (java.lang.UnsatisfiedLinkError e) {
+			JOptionPane.showMessageDialog(main.MainFrame.frame, e.toString(),
+					"Link Error", JOptionPane.ERROR_MESSAGE);
+			System.exit(1);
+		}
+
 		FSDK.Initialize();
+		
+		f = new File("C:\\Temp\\facematch\\");
 	}
 
 	public void menuEnrollFace() {
@@ -48,7 +60,7 @@ public class TFaceRecord {
 		FSDK.SetFaceDetectionParameters(false, true, 384);
 		FSDK.SetFaceDetectionThreshold(FaceDetectionThreshold);
 
-		File f = new File("C:\\Temp\\facematch\\");
+		
 
 		String fileName = null;
 
@@ -100,7 +112,7 @@ public class TFaceRecord {
 	}
 
 	public void menuMatchFace() {
-		
+
 		String fileName = "C:\\temp\\in\\in.jpg";
 
 		TFaceRecord fr = new TFaceRecord();
@@ -128,7 +140,7 @@ public class TFaceRecord {
 		// Matching
 		float ThresholdByReference[] = new float[1];
 		FSDK.GetMatchingThresholdAtFAR(FARValue / 100.0f, ThresholdByReference);
-		float Threshold = ThresholdByReference[0];
+		float Threshold = 0.9f;
 		int MatchedCount = 0;
 		float SimilarityByReference[] = new float[1];
 
@@ -136,7 +148,6 @@ public class TFaceRecord {
 		float Similarity = 0;
 
 		// ///////////////////////////////
-		File f = new File("C:\\Temp\\facematch\\");
 
 		String fileName2 = null;
 
@@ -147,19 +158,49 @@ public class TFaceRecord {
 		}
 		// ///////////////////////////////
 
+		float maxSimNum = 0.0f;
+		int maxArryNum = 0;
+
 		for (int i = 0; i < FaceList.size(); ++i) {
 			FSDK.MatchFaces(fr.FaceTemplate, FaceList.get(i).FaceTemplate,
 					SimilarityByReference);
 			Similarity = SimilarityByReference[0];
+
 			System.out.println(i + "번째 : " + Similarity);
 			if (Similarity >= Threshold) {
+
+				if (Similarity > maxSimNum) {
+					maxSimNum = Similarity;
+					maxArryNum = i;
+				}
+
 				Sortable s = new Sortable();
 				s.index = i;
 				s.similarity = Similarity;
 				sim_ind.add(s);
 				++MatchedCount;
 				System.out.println("입장 가능!!!! 얼굴이 확인 되었다." + Similarity);
+
 			}
+
+			
+		}
+		
+		if (maxSimNum != 0.0f) {
+			MainFrame.frame.setJMenuBar(new UserMenuBar());
+
+//			FaceTrackingView.drawingTimer.stop();
+
+			MainFrame.contentPane.removeAll();
+			MainFrame.contentPane.repaint();
+			MainFrame.frame.setTitle("재택근무관리 프로그램 (사용자)");
+			MainFrame.frame.setVisible(true);
+			
+			
+		} else {
+			JOptionPane.showMessageDialog(MainFrame.frame,
+					"일치하는 얼굴이 없습니다.", "경고",
+					JOptionPane.WARNING_MESSAGE);
 		}
 
 		if (MatchedCount == 0) {
