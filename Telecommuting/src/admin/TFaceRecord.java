@@ -83,10 +83,10 @@ public class TFaceRecord {
 
 	public void menuMatchFace() {
 
-		String fileName = "C:\\temp\\test.jpg";
+		String fileName = "C:\\temp\\in\\in.jpg";
 
 		TFaceRecord fr = new TFaceRecord();
-		fr.ImageFileName = "test.jpg";
+		fr.ImageFileName = "in.jpg";
 		fr.image = new HImage();
 
 		int res = FSDK.LoadImageFromFileW(fr.image, fileName);
@@ -115,11 +115,13 @@ public class TFaceRecord {
 		float SimilarityByReference[] = new float[1];
 
 		java.util.List<Sortable> sim_ind = new ArrayList<Sortable>();
+		float Similarity = 0;
 		for (int i = 0; i < FaceList.size(); ++i) {
 			FSDK.MatchFaces(fr.FaceTemplate, FaceList.get(i).FaceTemplate,
 					SimilarityByReference);
-			float Similarity = SimilarityByReference[0];
-			if (Similarity >= Threshold) {
+			Similarity = SimilarityByReference[0];
+			System.out.println(i + "번째 : " + Similarity);
+			if (Similarity >= 0.90) {
 				Sortable s = new Sortable();
 				s.index = i;
 				s.similarity = Similarity;
@@ -130,7 +132,7 @@ public class TFaceRecord {
 		}
 
 		if (MatchedCount == 0) {
-			System.out.println("하나도 안맞아!!!!!!!!!!!!");
+			System.out.println("하나도 안맞아!!!!!!!!!!!!" + Similarity);
 			FSDK.FreeImage(fr.image);
 			FSDK.FreeImage(fr.faceImage);
 			return;
