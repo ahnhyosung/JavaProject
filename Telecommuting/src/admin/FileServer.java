@@ -34,60 +34,66 @@ public class FileServer implements Runnable {
 				System.out.println("클라이언트 대기중");
 				Socket client = s.accept();
 				System.out.println("client = " + client.getInetAddress());
-				new Thread(new FileServerClient(client)).start();
+				new FileServerClient(client).start();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
 	}
 
-	static class FileServerClient implements Runnable {
+	class FileServerClient extends Thread {
 		private Socket socket;
+		InputStream in;
+		FileOutputStream out;
 
-		FileServerClient(Socket s) {
+		FileServerClient(Socket s) throws IOException {
 			socket = s;
+
+			in = socket.getInputStream();
+			out = new FileOutputStream("C:\\Temp\\in\\in.jpg");
 		}
 
 		public void run() {
 			try {
 
-				InputStream in = socket.getInputStream();
-				FileOutputStream out = new FileOutputStream(
-						"C:\\Temp\\in\\in.jpg");
+				System.out.println("테스트 시작");
 
-				byte[] buffer = new byte[10000];
+				byte[] buffer = new byte[100000];
 				int bytesRead = 0;
 				while ((bytesRead = in.read(buffer)) > 0) {
 					out.write(buffer, 0, bytesRead);
 				}
+
+				System.out.println("테스트ㅋㅋㅋ");
 				out.flush();
 				out.close();
 
 				dbproc.selectUser(1);
 				dbproc.closeCon();
 
+				System.out.println("테스트ㅎㅎ");
+
 				TFaceRecord tRecode = new TFaceRecord();
 				tRecode.menuEnrollFace();
 				float fnum = tRecode.menuMatchFace();
+
+				System.out.println("테스트0");
 
 				bw = new BufferedWriter(new OutputStreamWriter(
 						socket.getOutputStream()));
 
 				if (fnum != 0.0f) {
-					bw.write(1);
+					bw.write("1");
 				} else {
-					bw.write(0);
+					bw.write("0");
 				}
+
+				System.out.println("테스트1");
 				bw.flush();
+				System.out.println("테스트2");
 
 			} catch (IOException e) {
 				e.printStackTrace();
-			} finally {
-				try {
-					socket.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
 			}
 
 		}
