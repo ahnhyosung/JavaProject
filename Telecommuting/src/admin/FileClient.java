@@ -31,7 +31,7 @@ public class FileClient {
 			BufferedOutputStream out = new BufferedOutputStream(
 					s.getOutputStream());
 			FileInputStream fileIn = new FileInputStream(
-					"C:\\temp1\\woojung.jpg");
+					"C:\\temp\\test.jpg");
 			byte[] buffer = new byte[10000];
 			int bytesRead = 0;
 			while ((bytesRead = fileIn.read(buffer)) > 0) {
