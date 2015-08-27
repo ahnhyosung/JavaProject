@@ -1,6 +1,8 @@
 package admin;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -29,6 +31,8 @@ public class TFaceRecord {
 	public static final int height = 480;
 	
 	public File f;
+	
+	
 
 	public TFaceRecord() {
 		try {
@@ -111,7 +115,7 @@ public class TFaceRecord {
 		public int index;
 	}
 
-	public void menuMatchFace() {
+	public float menuMatchFace() {
 
 		String fileName = "C:\\temp\\in\\in.jpg";
 
@@ -186,28 +190,12 @@ public class TFaceRecord {
 			
 		}
 		
-		if (maxSimNum != 0.0f) {
-			MainFrame.frame.setJMenuBar(new UserMenuBar());
-
-//			FaceTrackingView.drawingTimer.stop();
-
-			MainFrame.contentPane.removeAll();
-			MainFrame.contentPane.repaint();
-			MainFrame.frame.setTitle("재택근무관리 프로그램 (사용자)");
-			MainFrame.frame.setVisible(true);
-			
-			
-		} else {
-			JOptionPane.showMessageDialog(MainFrame.frame,
-					"일치하는 얼굴이 없습니다.", "경고",
-					JOptionPane.WARNING_MESSAGE);
-		}
+		
 
 		if (MatchedCount == 0) {
 			System.out.println("하나도 안맞아!!!!!!!!!!!!" + Similarity);
 			FSDK.FreeImage(fr.image);
 			FSDK.FreeImage(fr.faceImage);
-			return;
 		}
 
 		Collections.sort(sim_ind, new Comparator<Sortable>() {
@@ -216,6 +204,6 @@ public class TFaceRecord {
 				return ((Float) obj2.similarity).compareTo(obj1.similarity);
 			}
 		});
-
+		return maxSimNum;
 	}
 }
