@@ -44,14 +44,17 @@ public class FileServerThread extends Thread {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
+		
 		byte[] buffer = new byte[100000];
 		int bytesRead = 0;
 		try {
+			System.out.println("플러쉬를 하나?");
 			while ((bytesRead = in.read(buffer)) > 0) {
+				System.out.println(bytesRead);
 				out.write(buffer, 0, bytesRead);
 			}
 			out.flush();
+			out.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

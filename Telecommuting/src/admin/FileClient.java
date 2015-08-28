@@ -4,10 +4,13 @@ import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FilterInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.Socket;
@@ -86,13 +89,42 @@ public class FileClient {
 
 	public void sendImage() {
 		try {
-			out = new BufferedOutputStream(socket.getOutputStream());
-			FileInputStream fileIn = new FileInputStream("C:\\temp\\test.jpg");
+
+			InputStream in;
+			try {
+				in = new FileInputStream("C:\\Temp\\test.jpg");
+				OutputStream out = new FileOutputStream("C:\\Temp\\test" + "_"
+						+ 1 + ".jpg");
+
+				int bData;
+
+				while (true) {
+					bData = in.read();
+					if (bData == -1)
+						break;
+
+					out.write(bData);
+				}
+				in.close();
+				out.close();
+
+			} catch (FileNotFoundException e1) {
+				e1.printStackTrace();
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+
 			byte[] buffer = new byte[10000];
 			int bytesRead = 0;
+			out = new BufferedOutputStream(socket.getOutputStream());
+			
+			FileInputStream fileIn = new FileInputStream("C:\\Temp\\test" + "_"
+					+ 1 + ".jpg");
+			
 			while ((bytesRead = fileIn.read(buffer)) > 0) {
 				out.write(buffer, 0, bytesRead);
 			}
+			fileIn.close();
 			out.flush();
 
 		} catch (IOException e) {
