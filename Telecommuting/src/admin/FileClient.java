@@ -114,19 +114,25 @@ public class FileClient {
 				e1.printStackTrace();
 			}
 
-			byte[] buffer = new byte[10000];
+			byte[] buffer = new byte[256];
 			int bytesRead = 0;
 			out = new BufferedOutputStream(socket.getOutputStream());
 			
 			FileInputStream fileIn = new FileInputStream("C:\\Temp\\test" + "_"
 					+ 1 + ".jpg");
 			
-			while ((bytesRead = fileIn.read(buffer)) > 0) {
-				out.write(buffer, 0, bytesRead);
+			while (true) {
+				bytesRead = fileIn.read(buffer);
+				System.out.println(bytesRead);
+				if(bytesRead==-1)
+					break;
+				out.write(buffer,0,bytesRead);
+				out.flush();
+//				System.out.println("client run:"+bytesRead);
 			}
+			System.out.println("client exit");
 			fileIn.close();
-			out.flush();
-
+			out.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
