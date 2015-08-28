@@ -62,7 +62,7 @@ public class AdminPanel extends JPanel {
 			if (textfield_id.getText().equals("admin")
 					&& textfield_pw.getText().equals("1234")) {
 				System.out.println("Á¢¼Ó!");
-				new Thread(new FileServer()).start();
+				new FileServer();
 				MainFrame.frame.setJMenuBar(new AdminMenuBar());
 				MainFrame.contentPane.removeAll();
 				MainFrame.contentPane.repaint();

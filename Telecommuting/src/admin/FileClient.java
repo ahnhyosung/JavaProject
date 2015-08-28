@@ -20,57 +20,63 @@ import user.UserMenuBar;
 public class FileClient {
 	private String hostname;
 	private int port;
-	
-	
 
-	private Socket s;
+	private Socket socket;
+	private BufferedOutputStream out;
 
-	public FileClient(){
-		connect();
-		new Listen(s).start();
+	// public FileClient(){
+	// connect();
+	// new Listen(s).start();
+	// }
+
+	public FileClient() {
+		try {
+			socket = new Socket(InetAddress.getByName("127.0.0.1"), 9999);
+			new Listen(socket).start();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
-	public FileClient(String hostname, int port) {
-		this.hostname = hostname;
-		this.port = port;
-		connect();
-		
-	}
-	
+
 	class Listen extends Thread {
-		Socket s;
+		Socket listen_socket;
 		BufferedReader br;
-		
-		public Listen(Socket s) {
-			this.s = s;
-			
+
+		public Listen(Socket listen_socket) {
+			this.listen_socket = listen_socket;
+
 			try {
-				br = new BufferedReader(new InputStreamReader(s.getInputStream()));
+				br = new BufferedReader(new InputStreamReader(
+						listen_socket.getInputStream()));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
-		//ee
+
+		// ee
 		@Override
 		public void run() {
 			try {
-				int num = br.read();
-				
-				if (num == 1) {
-					MainFrame.frame.setJMenuBar(new UserMenuBar());
+				while (true) {
+					String num = br.readLine();
 
-//					FaceTrackingView.drawingTimer.stop();
+					if (num == "1") {
+						MainFrame.frame.setJMenuBar(new UserMenuBar());
 
-					MainFrame.contentPane.removeAll();
-					MainFrame.contentPane.repaint();
-					MainFrame.frame.setTitle("재택근무관리 프로그램 (사용자)");
-					MainFrame.frame.setVisible(true);
-				} else {
-					JOptionPane.showMessageDialog(MainFrame.frame,
-							"일치하는 얼굴이 없습니다.", "경고",
-							JOptionPane.WARNING_MESSAGE);
+						// FaceTrackingView.drawingTimer.stop();
+
+						MainFrame.contentPane.removeAll();
+						MainFrame.contentPane.repaint();
+						MainFrame.frame.setTitle("재택근무관리 프로그램 (사용자)");
+						MainFrame.frame.setVisible(true);
+					} else {
+						JOptionPane.showMessageDialog(MainFrame.frame,
+								"일치하는 얼굴이 없습니다.", "경고",
+								JOptionPane.WARNING_MESSAGE);
+					}
 				}
-				
-				s.close();
+
+				// s.close();
 
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -78,26 +84,20 @@ public class FileClient {
 		}
 	}
 
-	private void connect() {
-		
+	public void sendImage() {
 		try {
-			s = new Socket(InetAddress.getByName("192.168.0.19"), 9999);
-
-			BufferedOutputStream out = new BufferedOutputStream(
-					s.getOutputStream());
-			FileInputStream fileIn = new FileInputStream(
-					"C:\\temp\\test.jpg");
+			out = new BufferedOutputStream(socket.getOutputStream());
+			FileInputStream fileIn = new FileInputStream("C:\\temp\\test.jpg");
 			byte[] buffer = new byte[10000];
 			int bytesRead = 0;
 			while ((bytesRead = fileIn.read(buffer)) > 0) {
 				out.write(buffer, 0, bytesRead);
 			}
 			out.flush();
-			out.close();
-			fileIn.close();
 
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+
 	}
 }

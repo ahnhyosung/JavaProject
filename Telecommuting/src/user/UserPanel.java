@@ -20,6 +20,7 @@ public class UserPanel extends JPanel {
 	private JButton button_gotowork; // 출근 버튼
 	public JPanel panel;
 	
+	public FileClient fc;
 
 	/**
 	 * Create the panel.
@@ -50,9 +51,9 @@ public class UserPanel extends JPanel {
 			if (e.getSource() == button_gotowork) { // 출근 버튼을 누를 시
 //				FaceTrackingView.closeCamera();
 				
-				new FileClient();
-				
-				System.out.println("출근!");
+				fc = new FileClient();
+				fc.sendImage();
+//				System.out.println("출근!");
 
 				
 			}
