@@ -106,7 +106,7 @@ public class FileClient {
 					out.write(bData);
 				}
 				in.close();
-				out.close();
+//				out.close();
 
 			} catch (FileNotFoundException e1) {
 				e1.printStackTrace();

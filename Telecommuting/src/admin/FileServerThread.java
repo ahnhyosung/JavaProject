@@ -62,7 +62,7 @@ public class FileServerThread extends Thread {
 			System.out.println("yang");
 //			
 			out.close();
-			in.close();
+//			in.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
