@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.net.ConnectException;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.Socket;
@@ -39,6 +40,8 @@ public class FileClient {
 			socket = new Socket(InetAddress.getByName("127.0.0.1"), 9999);
 			new Listen(socket).start();
 			new Speak(socket).start();
+		} catch (ConnectException e) {
+			System.out.println("관리자 서버에 접속할 수 없습니다.");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

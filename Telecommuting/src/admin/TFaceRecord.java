@@ -201,8 +201,12 @@ public class TFaceRecord {
 			}
 		});
 		
-		StringTokenizer st = new StringTokenizer(file_name, "_");
-		String name = st.nextToken();
+		String name = null;
+		
+		if (file_name != null) {
+			StringTokenizer st = new StringTokenizer(file_name, "_");
+			name = st.nextToken();
+		}
 		
 		return name;
 	}

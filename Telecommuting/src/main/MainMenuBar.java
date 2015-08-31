@@ -9,6 +9,7 @@ import javax.swing.JMenuItem;
 
 import user.UserPanel;
 import admin.AdminPanel;
+import admin.FaceTrackingView;
 
 public class MainMenuBar extends JMenuBar {
 	private JMenuItem menuItem_admin; // 로그인 메뉴의 관리자 아이템
@@ -39,20 +40,34 @@ public class MainMenuBar extends JMenuBar {
 
 	class MainActionListener implements ActionListener {
 
+		public void cameraRunningCheck() {
+			if (FaceTrackingView.drawingTimer != null && FaceTrackingView.drawingTimer.isRunning()) {
+				FaceTrackingView.drawingTimer.stop();
+				FaceTrackingView.closeCamera();
+			}
+		}
+		
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			if (e.getSource() == menuItem_admin) { // 로그인 메뉴의 관리자 아이템을 선택 시
+				
+				cameraRunningCheck();
+				
 				MainFrame.contentPane = new AdminPanel();
 				MainFrame.frame.setContentPane(MainFrame.contentPane);
 				MainFrame.frame.setVisible(true);
 
 			} else if (e.getSource() == menuItem_user) { // 로그인 메뉴의 사용자 아이템을 선택
 															// 시
+				cameraRunningCheck();
+				
 				MainFrame.contentPane = new UserPanel();
 				MainFrame.frame.setContentPane(MainFrame.contentPane);
 				MainFrame.frame.setVisible(true);
 
 			} else if (e.getSource() == menu_info) { // 도움말 메뉴의 프로그램 정보 아이템을 선택시
+				
+				cameraRunningCheck();
 				MainFrame.contentPane = new MainHelpPanel();
 				MainFrame.frame.setContentPane(MainFrame.contentPane);
 				MainFrame.frame.setVisible(true);

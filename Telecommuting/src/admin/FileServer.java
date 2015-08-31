@@ -19,6 +19,7 @@ public class FileServer {
 			e.printStackTrace();
 		}
 
+		
 		new FileServerThread(server_socket, socket).start();
 
 	}

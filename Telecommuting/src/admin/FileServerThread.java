@@ -28,6 +28,16 @@ public class FileServerThread extends Thread {
 		file_server_thread_socket = s;
 
 	}
+	
+	@Override
+	public void destroy() {
+		try {
+			file_server_thread_socket.close();
+			file_server_socket.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 
 	public void run() {
 		try {

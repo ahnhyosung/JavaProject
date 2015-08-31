@@ -18,6 +18,7 @@ public class AdminPanel extends JPanel {
 	private JButton button_connect; // 접속 버튼
 	private JPasswordField textfield_pw;
 
+	
 	/**
 	 * Create the panel.
 	 */
