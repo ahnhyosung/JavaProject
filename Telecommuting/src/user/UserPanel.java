@@ -11,6 +11,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import db.DBProcess;
 import admin.FaceTrackingView;
 import admin.FileClient;
 import main.MainFrame;
@@ -41,6 +42,8 @@ public class UserPanel extends JPanel {
 		button_gotowork.setBounds(820, 214, 139, 126);
 		button_gotowork.addActionListener(new UserActionListener());
 		add(button_gotowork);
+		
+		
 
 	}
 
@@ -51,8 +54,9 @@ public class UserPanel extends JPanel {
 			if (e.getSource() == button_gotowork) { // 출근 버튼을 누를 시
 //				FaceTrackingView.closeCamera();
 				
+				new DBProcess().fileIO(null, 1);
 				fc = new FileClient();
-				fc.sendImage();
+				
 //				System.out.println("출근!");
 
 				

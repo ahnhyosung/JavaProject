@@ -83,10 +83,10 @@ public class AdminRegistPanel extends JPanel {
 							button_regist.setEnabled(false);
 							dbproc.closeCon();
 							
-							for (int i = 0; i < tempImage.length; i++) {
-								File fimage = new File("C:\\Temp\\" + tempImage[i]);
-								fimage.delete();
-							}
+//							for (int i = 0; i < tempImage.length; i++) {
+//								File fimage = new File("C:\\Temp\\" + tempImage[i]);
+//								fimage.delete();
+//							}
 						}
 					}
 

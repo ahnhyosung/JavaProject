@@ -6,6 +6,7 @@ import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.StringTokenizer;
 
 import javax.swing.JOptionPane;
 
@@ -31,8 +32,6 @@ public class TFaceRecord {
 	public static final int height = 480;
 	
 	public File f;
-	
-	
 
 	public TFaceRecord() {
 		try {
@@ -63,8 +62,6 @@ public class TFaceRecord {
 		// to speed up face detection
 		FSDK.SetFaceDetectionParameters(false, true, 384);
 		FSDK.SetFaceDetectionThreshold(FaceDetectionThreshold);
-
-		
 
 		String fileName = null;
 
@@ -115,7 +112,7 @@ public class TFaceRecord {
 		public int index;
 	}
 
-	public float menuMatchFace() {
+	public String menuMatchFace() {
 
 		String fileName = "C:\\temp\\in\\in.jpg";
 
@@ -163,7 +160,7 @@ public class TFaceRecord {
 		// ///////////////////////////////
 
 		float maxSimNum = 0.0f;
-		int maxArryNum = 0;
+		String file_name = null;
 
 		for (int i = 0; i < FaceList.size(); ++i) {
 			FSDK.MatchFaces(fr.FaceTemplate, FaceList.get(i).FaceTemplate,
@@ -175,7 +172,9 @@ public class TFaceRecord {
 
 				if (Similarity > maxSimNum) {
 					maxSimNum = Similarity;
-					maxArryNum = i;
+					file_name = f.list()[i];
+					
+					System.out.println("바로 이거야 : " + file_name);
 				}
 
 				Sortable s = new Sortable();
@@ -186,12 +185,9 @@ public class TFaceRecord {
 				System.out.println("입장 가능!!!! 얼굴이 확인 되었다." + Similarity);
 
 			}
-
 			
 		}
 		
-		
-
 		if (MatchedCount == 0) {
 			System.out.println("하나도 안맞아!!!!!!!!!!!!" + Similarity);
 			FSDK.FreeImage(fr.image);
@@ -204,6 +200,10 @@ public class TFaceRecord {
 				return ((Float) obj2.similarity).compareTo(obj1.similarity);
 			}
 		});
-		return maxSimNum;
+		
+		StringTokenizer st = new StringTokenizer(file_name, "_");
+		String name = st.nextToken();
+		
+		return name;
 	}
 }

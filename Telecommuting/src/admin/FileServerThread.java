@@ -2,6 +2,7 @@ package admin;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedWriter;
+import java.io.DataOutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
@@ -17,7 +18,7 @@ public class FileServerThread extends Thread {
 	FileOutputStream out;
 	public BufferedWriter bw;
 
-	public static DBProcess dbproc;
+	public DBProcess dbproc;
 
 	public FileServerThread(ServerSocket ss, Socket s) {
 
@@ -39,34 +40,49 @@ public class FileServerThread extends Thread {
 				+ file_server_thread_socket.getInetAddress());
 
 		try {
-			in =new BufferedInputStream( file_server_thread_socket.getInputStream());
+
+			in = new BufferedInputStream(
+					file_server_thread_socket.getInputStream());
+			
 			out = new FileOutputStream("C:\\Temp\\in\\in.jpg");
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		
+		DataOutputStream dos = new DataOutputStream(out);
+
 		byte[] buffer = new byte[256];
 		int bytesRead = 0;
+
 		try {
 			System.out.println("플러쉬를 하나?");
+
 			while (true) {
-				bytesRead = in.read(buffer,0,256);
-				
+
+				bytesRead = in.read(buffer, 0, 256);
 				System.out.println(bytesRead);
-				
-				if(bytesRead == -1)
+
+				if (bytesRead < 256) {
+					dos.write(buffer, 0, bytesRead);
 					break;
-				out.write(buffer,0,bytesRead);
-				out.flush();
+				}
+
+				dos.write(buffer, 0, bytesRead);
+//				out.flush();
+
 			}
 			System.out.println("yang");
-//			
-			out.close();
-//			in.close();
+
 		} catch (IOException e) {
 			e.printStackTrace();
+		} finally {
+
+			try {
+				out.close();
+			} catch (IOException ie) {
+			}
 		}
-		
 
 		System.out.println("테스트ㅋㅋㅋ");
 
@@ -77,25 +93,28 @@ public class FileServerThread extends Thread {
 
 		TFaceRecord tRecode = new TFaceRecord();
 		tRecode.menuEnrollFace();
-		float fnum = tRecode.menuMatchFace();
+		String match_file_name = tRecode.menuMatchFace();
 
 		System.out.println("테스트0");
 
 		try {
-			bw = new BufferedWriter(new OutputStreamWriter(file_server_thread_socket.getOutputStream()));
+			bw = new BufferedWriter(new OutputStreamWriter(
+					file_server_thread_socket.getOutputStream()));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
-		if (fnum != 0.0f) {
+		if (match_file_name != null) {
 			try {
-				bw.write("1");
+				bw.write(match_file_name + "\n");
+				System.out.println("1보냄");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		} else {
 			try {
-				bw.write("0");
+				bw.write(match_file_name + "\n");
+				System.out.println("0보냄");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

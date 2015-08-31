@@ -7,6 +7,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -34,7 +35,7 @@ public class DBProcess {
 		String id = "root";
 		String password = "1006";
 
- 		try {
+		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			System.out.println("드라이버 적재 성공");
 			con = DriverManager.getConnection(url, id, password);
@@ -62,7 +63,7 @@ public class DBProcess {
 					.prepareStatement("insert into user values(?,?,?)");
 
 			pstmt.setString(1, id);
-			pstmt.setString(2, name);
+			pstmt.setString(2, URLEncoder.encode(name, "utf-8"));
 			System.out.println(name);
 			pstmt.setBinaryStream(3, fis, (int) f.length());
 
@@ -70,8 +71,6 @@ public class DBProcess {
 
 			pstmt.close();
 			fis.close();
-
-			
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -84,7 +83,7 @@ public class DBProcess {
 
 	public void selectUser(int flag) {
 		try {
-			String query = "select user_code, image from user";
+			String query = "select user_code, name, image from user";
 			Statement stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 
@@ -96,16 +95,20 @@ public class DBProcess {
 			while (rs.next()) {
 
 				String user_code = rs.getString(1);
+				String user_name = rs.getString(2);
+
+				System.out.println(user_name);
+
 				is = rs.getBinaryStream("image");
 
 				switch (flag) {
 				case 0:
-					fos = new FileOutputStream("C:\\Temp\\" + user_code + "_"
-							+ num + ".jpg");
+					fos = new FileOutputStream("C:\\Temp\\"
+							+ URLDecoder.decode(user_name, "utf-8") + "(" + user_code + ")_" + num + ".jpg");
 					break;
 				case 1:
 					fos = new FileOutputStream("C:\\Temp\\facematch\\"
-							+ user_code + "_" + num + ".jpg");
+							+ URLDecoder.decode(user_name, "utf-8") + "(" + user_code + ")_" + num + ".jpg");
 					break;
 				}
 
