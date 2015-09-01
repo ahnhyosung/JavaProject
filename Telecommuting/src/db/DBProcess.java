@@ -63,7 +63,7 @@ public class DBProcess {
 					.prepareStatement("insert into user values(?,?,?)");
 
 			pstmt.setString(1, id);
-			pstmt.setString(2, URLEncoder.encode(name, "utf-8"));
+			pstmt.setString(2, URLEncoder.encode(name, "euc-kr"));
 			System.out.println(name);
 			pstmt.setBinaryStream(3, fis, (int) f.length());
 
@@ -104,11 +104,11 @@ public class DBProcess {
 				switch (flag) {
 				case 0:
 					fos = new FileOutputStream("C:\\Temp\\"
-							+ URLDecoder.decode(user_name, "utf-8") + "(" + user_code + ")_" + num + ".jpg");
+							+ URLDecoder.decode(user_name, "euc-kr") + "(" + user_code + ")_" + num + ".jpg");
 					break;
 				case 1:
 					fos = new FileOutputStream("C:\\Temp\\facematch\\"
-							+ URLDecoder.decode(user_name, "utf-8") + "(" + user_code + ")_" + num + ".jpg");
+							+ URLDecoder.decode(user_name, "euc-kr") + "(" + user_code + ")_" + num + ".jpg");
 					break;
 				}
 
