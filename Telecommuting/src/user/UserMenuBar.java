@@ -18,9 +18,12 @@ public class UserMenuBar extends JMenuBar {
 	private JMenuItem menuItem_logout; // 파일 메뉴의 로그아웃 아이템
 	private JMenuItem menu_info; // 도움말 메뉴의 프로그램 정보 아이템
 
+	String userName;
 	public UserMenuBar(String match_file_name) {
 		JMenu menu_file = new JMenu("파일");
 		add(menu_file);
+		
+		userName = match_file_name;
 
 		UserActionListener action = new UserActionListener();
 
@@ -43,7 +46,7 @@ public class UserMenuBar extends JMenuBar {
 
 		JLabel label_empty = new JLabel("                  ");
 		add(label_empty);
-		JLabel label_welcome = new JLabel("<<< " + match_file_name
+		JLabel label_welcome = new JLabel("<<< " + userName
 				+ " 님 환영합니다. >>>");
 		add(label_welcome);
 	}
@@ -56,7 +59,7 @@ public class UserMenuBar extends JMenuBar {
 														// 시
 				new CloseCamera().close();
 
-				MainFrame.contentPane = new UserChatPanel();
+				MainFrame.contentPane = new UserChatPanel(userName);
 				MainFrame.frame.setContentPane(MainFrame.contentPane);
 				MainFrame.frame.setVisible(true);
 

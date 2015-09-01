@@ -45,7 +45,7 @@ public class UserChatPanel extends JPanel {
 	Socket socket;
 	private Listen listen;
 	private UserChatPanel user = this;
-	
+	private String userName;
 	/**
 	 * Create the panel.
 	 */
@@ -61,8 +61,8 @@ public class UserChatPanel extends JPanel {
 		textArea_participant.setCaretPosition(textArea_participant.getText().length());
 	}
 	
-	public UserChatPanel() {
-		
+	public UserChatPanel(String userName) {
+		this.userName = userName;
 		setLayout(null);
 
 		JButton button_user3 = new JButton("»ç¿ëÀÚ3");
@@ -88,7 +88,7 @@ public class UserChatPanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				String sendMsg = textField_sentence.getText();
 				try {
-					bw.write(sendMsg + "\n");
+					bw.write(userName+": "+sendMsg + "\n");
 					bw.flush();
 					textField_sentence.setText("");
 				} catch (IOException e1) {

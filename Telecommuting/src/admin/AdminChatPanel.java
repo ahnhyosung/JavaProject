@@ -82,7 +82,7 @@ public class AdminChatPanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				String sendMsg = textField_sentence.getText();
 				try {
-					serverBw.write(sendMsg + "\n");
+					serverBw.write("°ü¸®ÀÚ: "+sendMsg + "\n");
 					serverBw.flush();
 					textField_sentence.setText("");
 				} catch (IOException e1) {
