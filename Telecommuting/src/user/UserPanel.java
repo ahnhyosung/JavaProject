@@ -3,18 +3,12 @@ package user;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import camera.FaceTrackingView;
 import db.DBProcess;
-import admin.FaceTrackingView;
-import admin.FileClient;
-import main.MainFrame;
 
 public class UserPanel extends JPanel {
 
@@ -23,14 +17,9 @@ public class UserPanel extends JPanel {
 	
 	public FileClient fc;
 
-	/**
-	 * Create the panel.
-	 */
 	public UserPanel() {
 		setLayout(null);
 		setBackground(Color.WHITE);
-		
-		
 
 		panel = new FaceTrackingView();
 		
@@ -42,9 +31,6 @@ public class UserPanel extends JPanel {
 		button_gotowork.setBounds(820, 214, 139, 126);
 		button_gotowork.addActionListener(new UserActionListener());
 		add(button_gotowork);
-		
-		
-
 	}
 
 	class UserActionListener implements ActionListener {
@@ -52,16 +38,11 @@ public class UserPanel extends JPanel {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			if (e.getSource() == button_gotowork) { // 출근 버튼을 누를 시
-//				FaceTrackingView.closeCamera();
-				
+	
 				new DBProcess().fileIO(null, 1);
 				fc = new FileClient();
-				
-//				System.out.println("출근!");
 
-				
 			}
 		}
-
 	}
 }

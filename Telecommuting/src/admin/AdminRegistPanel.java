@@ -4,14 +4,7 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -19,8 +12,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import main.MainFrame;
+import camera.FaceTrackingView;
 import db.DBProcess;
-import Luxand.FSDK;
 
 public class AdminRegistPanel extends JPanel {
 	private JTextField textField_name; // 이름 텍스트 필드
@@ -31,10 +24,7 @@ public class AdminRegistPanel extends JPanel {
 	private int count;
 	public static String[] tempImage = { "test_1.jpg", "test_2.jpg",
 			"test_3.jpg" };
-
-	/**
-	 * Create the panel.
-	 */
+	
 	public AdminRegistPanel() {
 		setLayout(null);
 		setBackground(Color.WHITE);
@@ -76,17 +66,18 @@ public class AdminRegistPanel extends JPanel {
 
 					count++;
 					if (count < 4) {
-						
+
 						dbproc.fileIO(textField_name.getText(), count);
-						
+
 						if (count == 3) {
 							button_regist.setEnabled(false);
 							dbproc.closeCon();
-							
-//							for (int i = 0; i < tempImage.length; i++) {
-//								File fimage = new File("C:\\Temp\\" + tempImage[i]);
-//								fimage.delete();
-//							}
+
+							// for (int i = 0; i < tempImage.length; i++) {
+							// File fimage = new File("C:\\Temp\\" +
+							// tempImage[i]);
+							// fimage.delete();
+							// }
 						}
 					}
 

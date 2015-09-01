@@ -6,7 +6,7 @@
  * Do not forget to restart Netbeans after installing the plugin!
  */
 
-package admin;
+package camera;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -97,7 +97,7 @@ public class FaceTrackingView extends JPanel {
 		// Timer to draw image from camera
 
 		drawingTimer = new Timer(40, new ActionListener() {
-			
+
 			public void actionPerformed(ActionEvent e) {
 				imageHandle = new HImage();
 				if (FSDKCam.GrabFrame(cameraHandle, imageHandle) == FSDK.FSDKE_OK) {
@@ -152,10 +152,4 @@ public class FaceTrackingView extends JPanel {
 		FSDKCam.FinalizeCapturing();
 		FSDK.Finalize();
 	}
-
-	// ///////////////////////////////////////////////////////////// Lookalike!!!
-	
-	
-	
-
 }

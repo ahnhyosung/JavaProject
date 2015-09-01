@@ -9,6 +9,7 @@ import java.io.OutputStreamWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import camera.TFaceRecord;
 import db.DBProcess;
 
 public class FileServerThread extends Thread {
@@ -28,7 +29,7 @@ public class FileServerThread extends Thread {
 		file_server_thread_socket = s;
 
 	}
-	
+
 	@Override
 	public void destroy() {
 		try {
@@ -53,13 +54,13 @@ public class FileServerThread extends Thread {
 
 			in = new BufferedInputStream(
 					file_server_thread_socket.getInputStream());
-			
+
 			out = new FileOutputStream("C:\\Temp\\in\\in.jpg");
-			
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+
 		DataOutputStream dos = new DataOutputStream(out);
 
 		byte[] buffer = new byte[256];
@@ -79,7 +80,6 @@ public class FileServerThread extends Thread {
 				}
 
 				dos.write(buffer, 0, bytesRead);
-//				out.flush();
 
 			}
 			System.out.println("yang");

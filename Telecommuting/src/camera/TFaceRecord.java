@@ -1,8 +1,6 @@
-package admin;
+package camera;
 
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -10,8 +8,6 @@ import java.util.StringTokenizer;
 
 import javax.swing.JOptionPane;
 
-import main.MainFrame;
-import user.UserMenuBar;
 import Luxand.FSDK;
 import Luxand.FSDK.HImage;
 import Luxand.FSDK.TFacePosition;
@@ -58,8 +54,6 @@ public class TFaceRecord {
 	}
 
 	public void menuEnrollFace() {
-		// Assuming that faces are vertical (HandleArbitraryRotations = false)
-		// to speed up face detection
 		FSDK.SetFaceDetectionParameters(false, true, 384);
 		FSDK.SetFaceDetectionThreshold(FaceDetectionThreshold);
 
@@ -148,7 +142,6 @@ public class TFaceRecord {
 		java.util.List<Sortable> sim_ind = new ArrayList<Sortable>();
 		float Similarity = 0;
 
-		// ///////////////////////////////
 
 		String fileName2 = null;
 
@@ -157,7 +150,6 @@ public class TFaceRecord {
 
 			System.out.println("test : " + fileName2);
 		}
-		// ///////////////////////////////
 
 		float maxSimNum = 0.0f;
 		String file_name = null;

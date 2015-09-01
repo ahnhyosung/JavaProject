@@ -8,16 +8,11 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import admin.TFaceRecord;
-
 public class MainFrame extends JFrame {
 
 	public static MainFrame frame; // 메인 Frame
 	public static JPanel contentPane; // 메인 Panel
 
-	/**
-	 * Launch the application.
-	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -31,14 +26,9 @@ public class MainFrame extends JFrame {
 		});
 	}
 
-	/**
-	 * Create the frame.
-	 */
 	public MainFrame() {
 		setTitle("재택근무관리 프로그램");
-		////////////////////////////////////////////
-		
-		////////////////////////////////////////////
+
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(200, 50, 1000, 650);
 
@@ -50,5 +40,4 @@ public class MainFrame extends JFrame {
 		contentPane.setBackground(Color.WHITE);
 		setContentPane(contentPane);
 	}
-
 }
