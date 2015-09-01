@@ -20,9 +20,6 @@ public class UserChatPanel extends JPanel {
 	private JButton button_participate; // 회의방 참가 버튼
 	private JButton button_exit; // 회의방 종료 버튼
 
-	/**
-	 * Create the panel.
-	 */
 	public UserChatPanel() {
 		setLayout(null);
 

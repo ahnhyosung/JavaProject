@@ -17,8 +17,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Random;
 
-import admin.AdminRegistPanel;
-
 public class DBProcess {
 
 	public Connection con;
@@ -104,11 +102,13 @@ public class DBProcess {
 				switch (flag) {
 				case 0:
 					fos = new FileOutputStream("C:\\Temp\\"
-							+ URLDecoder.decode(user_name, "euc-kr") + "(" + user_code + ")_" + num + ".jpg");
+							+ URLDecoder.decode(user_name, "euc-kr") + "("
+							+ user_code + ")_" + num + ".jpg");
 					break;
 				case 1:
 					fos = new FileOutputStream("C:\\Temp\\facematch\\"
-							+ URLDecoder.decode(user_name, "euc-kr") + "(" + user_code + ")_" + num + ".jpg");
+							+ URLDecoder.decode(user_name, "euc-kr") + "("
+							+ user_code + ")_" + num + ".jpg");
 					break;
 				}
 

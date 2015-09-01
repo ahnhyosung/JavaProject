@@ -1,27 +1,19 @@
-package admin;
+package user;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FilterInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.net.ConnectException;
 import java.net.InetAddress;
-import java.net.InetSocketAddress;
 import java.net.Socket;
 
 import javax.swing.JOptionPane;
 
-import db.DBProcess;
 import main.MainFrame;
-import user.UserMenuBar;
+import camera.FaceTrackingView;
 
 public class FileClient {
 	private String hostname;
@@ -29,11 +21,6 @@ public class FileClient {
 
 	public Socket socket;
 	private BufferedOutputStream out;
-
-	// public FileClient(){
-	// connect();
-	// new Listen(s).start();
-	// }
 
 	public FileClient() {
 		try {
@@ -62,7 +49,6 @@ public class FileClient {
 			}
 		}
 
-		// ee
 		@Override
 		public void run() {
 			try {
@@ -90,8 +76,6 @@ public class FileClient {
 								JOptionPane.WARNING_MESSAGE);
 					}
 				}
-
-				// s.close();
 
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -122,7 +106,6 @@ public class FileClient {
 
 		public void sendImage() {
 			try {
-				// //////////////////////////
 
 				byte[] buffer = new byte[256];
 				int bytesRead = 0;
@@ -142,7 +125,6 @@ public class FileClient {
 
 					out.write(buffer, 0, bytesRead);
 
-					// System.out.println("client run:"+bytesRead);
 				}
 				out.flush();
 				System.out.println("client exit");

@@ -11,16 +11,14 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
-// 바뀐거 확인용2
+
+
 public class AdminChatPanel extends JPanel {
 	private JTextField textField_sentence; // 대화 입력 텍스트 필드
 	private JTextField textField_portnum; // 포트 번호 입력 테스트 필드
 	private JButton button_create; // 회의방 개설 버튼
 	private JButton button_exit; // 회의방 종료 버튼
 
-	/**
-	 * Create the panel.
-	 */
 	public AdminChatPanel() {
 		setLayout(null);
 

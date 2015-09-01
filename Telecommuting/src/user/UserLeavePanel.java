@@ -17,9 +17,6 @@ public class UserLeavePanel extends JPanel {
 
 	private JButton button_leave; // Επ±Ω ΉφΖ°
 
-	/**
-	 * Create the panel.
-	 */
 	public UserLeavePanel() {
 		setLayout(null);
 		setBackground(Color.WHITE);

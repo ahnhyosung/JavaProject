@@ -6,7 +6,6 @@ import java.net.Socket;
 
 public class FileServer {
 	private final int PORT = 9999;
-	
 
 	public ServerSocket server_socket = null;
 	public Socket socket;
@@ -19,10 +18,8 @@ public class FileServer {
 			e.printStackTrace();
 		}
 
-		
 		new FileServerThread(server_socket, socket).start();
 
 	}
-
 
 }
