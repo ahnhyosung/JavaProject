@@ -1,6 +1,8 @@
 package admin;
 
 import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -10,6 +12,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.border.Border;
 
 import main.MainFrame;
 import camera.FaceTrackingView;
@@ -44,7 +47,7 @@ public class AdminRegistPanel extends JPanel {
 		add(button_regist);
 
 		JPanel panel = new FaceTrackingView();
-		panel.setBounds(187, 10, 780, 599);
+		panel.setBounds(200, 50, 780, 599);
 		add(panel);
 
 		for (String str : tempImage) {
