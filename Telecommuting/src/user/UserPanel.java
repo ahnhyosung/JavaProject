@@ -24,7 +24,7 @@ public class UserPanel extends JPanel {
 		panel = new FaceTrackingView();
 		
 		
-		panel.setBounds(120, 10, 650, 599);
+		panel.setBounds(120, 30, 650, 599);
 		add(panel);
 
 		button_gotowork = new JButton("√‚±Ÿ");
