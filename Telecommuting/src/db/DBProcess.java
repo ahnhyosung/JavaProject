@@ -31,7 +31,7 @@ public class DBProcess {
 	public void makeConnection() {
 		String url = "jdbc:mysql://localhost:3306/javaproject";
 		String id = "root";
-		String password = "hanbit";
+		String password = "1006";
 
 		try {
 			Class.forName("com.mysql.jdbc.Driver");

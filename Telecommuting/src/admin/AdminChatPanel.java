@@ -2,7 +2,6 @@ package admin;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
-
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -29,7 +28,9 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.Scanner;
+import java.util.StringTokenizer;
 import java.util.Vector;
+
 import org.omg.CORBA.IdentifierHelper;
 import org.omg.Messaging.SyncScopeHelper;
 import org.omg.PortableInterceptor.ServerRequestInfoOperations;
@@ -41,6 +42,7 @@ public class AdminChatPanel extends JPanel {
 	private JButton button_create; // 회의방 개설 버튼
 	private JButton button_exit; // 회의방 종료 버튼
 	private JTextArea textArea_content;
+	private JList list_participant;
 
 	// private ServerSocket serverSocket;
 	private Socket mySocket;
@@ -49,6 +51,8 @@ public class AdminChatPanel extends JPanel {
 
 	private AdminChatConnect serverStart;
 	private AdminChatPanel admin = this;
+	
+	Vector<String> name = new Vector<String>();
 
 	/**
 	 * Create the panel.
@@ -82,7 +86,7 @@ public class AdminChatPanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				String sendMsg = textField_sentence.getText();
 				try {
-					serverBw.write("관리자: "+sendMsg + "\n");
+					serverBw.write("관리자: " + sendMsg + "\n");
 					serverBw.flush();
 					textField_sentence.setText("");
 				} catch (IOException e1) {
@@ -93,7 +97,8 @@ public class AdminChatPanel extends JPanel {
 		});
 
 		JPanel panel_1 = new JPanel();
-		panel_1.setBorder(new TitledBorder(null, "참가자", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panel_1.setBorder(new TitledBorder(null, "참가자", TitledBorder.LEADING,
+				TitledBorder.TOP, null, null));
 		panel_1.setBounds(12, 102, 343, 113);
 		add(panel_1);
 		panel_1.setLayout(null);
@@ -102,11 +107,12 @@ public class AdminChatPanel extends JPanel {
 		scrollPane.setBounds(6, 17, 326, 86);
 		panel_1.add(scrollPane);
 
-		JList list_participant = new JList();
+		list_participant = new JList();
 		scrollPane.setViewportView(list_participant);
 
 		JPanel panel = new JPanel();
-		panel.setBorder(new TitledBorder(null, "대화 내용", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panel.setBorder(new TitledBorder(null, "대화 내용", TitledBorder.LEADING,
+				TitledBorder.TOP, null, null));
 		panel.setBounds(12, 225, 343, 322);
 		add(panel);
 		panel.setLayout(null);
@@ -146,39 +152,41 @@ public class AdminChatPanel extends JPanel {
 		button_exit.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-					try {
-						serverStart.broadcast("관리자가 서버를 종료합니다.");
-						serverBw.close();
-						mySocket.close();
-						serverStart.ExitServer();
-						textField_portnum.setText("");
-						textField_portnum.setEditable(true);
-					} catch (NullPointerException e1){ 
-						JOptionPane.showMessageDialog(null, "회의방을 먼저 개설하세요");
-					} catch (IOException e1) {
-						System.out.println("관리자가 종료하는데 소켓에 문제가 생겼습니다.");
-					}
+				try {
+					serverStart.broadcast("관리자가 서버를 종료합니다.");
+					serverBw.close();
+					mySocket.close();
+					serverStart.ExitServer();
+					textField_portnum.setText("");
+					textField_portnum.setEditable(true);
+				} catch (NullPointerException e1) {
+					JOptionPane.showMessageDialog(null, "회의방을 먼저 개설하세요");
+				} catch (IOException e1) {
+					System.out.println("관리자가 종료하는데 소켓에 문제가 생겼습니다.");
 				}
+			}
 
 		});
 		add(button_exit);
 
 	}
 
-	///////////////////////////////////////////////////////// 방개설 채팅
+	// /////////////////////////////////////////////////////// 방개설 채팅
 
 	public void admin_chatFrame(int port) {
 		try {
 			InetAddress ip = InetAddress.getLocalHost();
 			mySocket = new Socket(ip, port);
-			serverBr = new BufferedReader(new InputStreamReader(mySocket.getInputStream()));
-			serverBw = new BufferedWriter(new OutputStreamWriter(mySocket.getOutputStream()));
+			serverBr = new BufferedReader(new InputStreamReader(
+					mySocket.getInputStream()));
+			serverBw = new BufferedWriter(new OutputStreamWriter(
+					mySocket.getOutputStream()));
 		} catch (NumberFormatException e) {
 			System.out.println("서버가 채팅하고싶은데  ip랑 port의 자료형이 맞지 않는다.");
 		} catch (IOException e) {
 			System.out.println("포트 중복인데 일어날일이 없다.");
 			System.out.println("이상없음");
-//			ServerListen.interrupted();
+			// ServerListen.interrupted();
 		}
 
 		new ServerListen().start();
@@ -192,8 +200,20 @@ public class AdminChatPanel extends JPanel {
 				try {
 					String msg = serverBr.readLine();
 					System.out.println(msg);
-					textArea_content.append(msg + "\n");
-					textArea_content.setCaretPosition(textArea_content.getText().length());
+
+					StringTokenizer sToken = new StringTokenizer(msg, ":");
+
+					if (sToken.nextToken().equals("NewUser")) {
+						
+						name.add(sToken.nextToken());
+						list_participant.setListData(name);
+					} else {
+
+						textArea_content.append(msg + "\n");
+						textArea_content.setCaretPosition(textArea_content
+								.getText().length());
+
+					}
 				} catch (IOException e) {
 					try {
 						ServerListen.interrupted();

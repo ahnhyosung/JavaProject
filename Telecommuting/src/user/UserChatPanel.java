@@ -25,6 +25,7 @@ import java.io.OutputStreamWriter;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.Vector;
 
 import user.*;
 
@@ -38,7 +39,7 @@ public class UserChatPanel extends JPanel {
 	private JButton button_exit; // 회의방 종료 버튼
 	private JPanel panel;		// 대화내용 패널
 	private JTextArea textArea_content;		//대화 내용 area 소켓하고 연결		
-	private JTextArea textArea_participant; // 채팅방 참가자들 목록
+	JList list_participant; // 채팅방 참가자들 목록
 	
 	private BufferedReader br;
 	private BufferedWriter bw; 
@@ -54,11 +55,6 @@ public class UserChatPanel extends JPanel {
 		textArea_content.append(msg + "\n");
 		textArea_content.setCaretPosition(textArea_content.getText().length());
 		System.out.println(msg);
-	}
-
-	public void setTextArea_participant(String msg) {
-		textArea_participant.append(msg + "\n");
-		textArea_participant.setCaretPosition(textArea_participant.getText().length());
 	}
 	
 	public UserChatPanel(String userName) {
@@ -110,8 +106,8 @@ public class UserChatPanel extends JPanel {
 		scrollPane.setBounds(6, 17, 326, 86);
 		panel_1.add(scrollPane);
 		
-		textArea_participant = new JTextArea();
-		scrollPane.setViewportView(textArea_participant);
+		list_participant = new JList();
+		scrollPane.setViewportView(list_participant);
 //		list_participant.setAutoscrolls(true);
 		
 		panel = new JPanel();
@@ -162,7 +158,7 @@ public class UserChatPanel extends JPanel {
 					br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 					bw = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
 
-					bw.write("지금 id라 생각해" + "\n");
+					bw.write("NewUser:" + userName + "\n");
 					bw.flush();
 					
 				} catch (NumberFormatException e1) {
@@ -203,6 +199,10 @@ public class UserChatPanel extends JPanel {
 			}
 		});
 		add(button_exit);
+	}
+
+	public void setListParticipant(Vector<String> name) {
+		list_participant.setListData(name);
 	}
 	
 }
