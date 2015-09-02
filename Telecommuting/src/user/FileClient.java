@@ -24,7 +24,7 @@ public class FileClient {
 
 	public FileClient() {
 		try {
-			socket = new Socket(InetAddress.getByName("127.0.0.1"), 9999);
+			socket = new Socket(InetAddress.getByName("172.168.0.58"), 9999);
 			new Listen(socket).start();
 			new Speak(socket).start();
 		} catch (ConnectException e) {
