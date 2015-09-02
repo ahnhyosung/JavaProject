@@ -46,16 +46,17 @@ public class AdminChatConnect extends Thread {
 				ServerThread thread = new ServerThread(this, socket);
 				vector.add(index, thread);
 				vector.get(index).start();
+				index++;
 
 				if (flag) {
 					broadcast("NewUser:°ü¸®ÀÚ");
 					flag = false;
 
 				} else {
+					int num = index - 1;
 					for (String name : vector_user_list) {
-						vector.get(index).speakToMsg("OriUser:" + name);
+						vector.get(num).speakToMsg("OriUser:" + name);
 					}
-					index++;
 					
 				}
 
@@ -70,10 +71,10 @@ public class AdminChatConnect extends Thread {
 	public void ExitServer() {
 		try {
 			for (int i = 0; i < index; i++) {
+				vector.get(i).interrupt();
 				vector.get(i).br.close();
 				vector.get(i).bw.close();
 				vector.get(i).s.close();
-				vector.get(i).interrupted();
 			}
 			vector.clear();
 			serverSocket.close();

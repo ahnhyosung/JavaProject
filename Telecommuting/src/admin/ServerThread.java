@@ -34,7 +34,15 @@ public class ServerThread extends Thread {
 		try {
 			while (true) {
 				String msg = br.readLine();
-				server.broadcast(msg);
+
+				if (msg == null) {
+					this.interrupt();
+					br.close();
+					bw.close();
+					s.close();
+				} else {
+					server.broadcast(msg);
+				}
 			}
 
 		} catch (IOException e) {

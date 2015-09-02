@@ -3,6 +3,7 @@ package user;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -88,7 +89,7 @@ public class UserChatPanel extends JPanel {
 					bw.flush();
 					textField_sentence.setText("");
 				} catch (IOException e1) {
-					textArea_content.append("채팅방이 다혔습니다.\n");
+					textArea_content.append("채팅방이 닫혔습니다.\n");
 				}
 			}
 		});
@@ -182,12 +183,15 @@ public class UserChatPanel extends JPanel {
 				try {
 					textField_ip.setEditable(true);
 					textField_portnum.setEditable(true);
+					
+					listen.interrupt();
 					bw.close();
+					br.close();
 					socket.close();
 					
+					list_participant.setModel(new DefaultListModel());
+					textArea_content.setText(null);
 					
-					
-					listen.interrupted();
 				} catch (NullPointerException e1) {
 					System.out.println("null");
 				} catch (IOException e1) {

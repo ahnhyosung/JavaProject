@@ -154,9 +154,14 @@ public class AdminChatPanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					serverStart.broadcast("관리자가 서버를 종료합니다.");
-					serverBw.close();
-					mySocket.close();
 					serverStart.ExitServer();
+					System.out.println(1);
+					serverBw.close();
+					System.out.println(2);
+					serverBr.close();
+					System.out.println(3);
+					mySocket.close();
+					System.out.println(4);
 					textField_portnum.setText("");
 					textField_portnum.setEditable(true);
 				} catch (NullPointerException e1) {
