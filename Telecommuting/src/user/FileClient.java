@@ -24,7 +24,7 @@ public class FileClient {
 
 	public FileClient() {
 		try {
-			socket = new Socket(InetAddress.getByName("172.168.0.58"), 9999);
+			socket = new Socket(InetAddress.getByName("127.0.0.1"), 9999);
 			new Listen(socket).start();
 			new Speak(socket).start();
 		} catch (ConnectException e) {
@@ -58,7 +58,7 @@ public class FileClient {
 					String match_file_name = br.readLine();
 					System.out.println("읽었당!");
 
-					if (!match_file_name.equals(null)) {
+					if (!match_file_name.equals("error")) {
 
 						FaceTrackingView.drawingTimer.stop();
 						FaceTrackingView.closeCamera();
@@ -70,14 +70,22 @@ public class FileClient {
 						MainFrame.contentPane.repaint();
 						MainFrame.frame.setTitle("재택근무관리 프로그램 (사용자)");
 						MainFrame.frame.setVisible(true);
+						break;
 					} else {
 						JOptionPane.showMessageDialog(MainFrame.frame,
 								"일치하는 얼굴이 없습니다.", "경고",
 								JOptionPane.WARNING_MESSAGE);
+						break;
 					}
 				}
 
 			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			try {
+				socket.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}

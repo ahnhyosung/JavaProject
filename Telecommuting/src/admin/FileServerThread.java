@@ -27,6 +27,7 @@ public class FileServerThread extends Thread {
 
 		file_server_socket = ss;
 		file_server_thread_socket = s;
+		
 
 	}
 
@@ -41,12 +42,7 @@ public class FileServerThread extends Thread {
 	}
 
 	public void run() {
-		try {
-
-			file_server_thread_socket = file_server_socket.accept();
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
+		
 		System.out.println("client = "
 				+ file_server_thread_socket.getInetAddress());
 
@@ -67,7 +63,6 @@ public class FileServerThread extends Thread {
 		int bytesRead = 0;
 
 		try {
-			System.out.println("플러쉬를 하나?");
 
 			while (true) {
 
@@ -82,7 +77,6 @@ public class FileServerThread extends Thread {
 				dos.write(buffer, 0, bytesRead);
 
 			}
-			System.out.println("yang");
 
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -94,18 +88,15 @@ public class FileServerThread extends Thread {
 			}
 		}
 
-		System.out.println("테스트ㅋㅋㅋ");
 
 		dbproc.selectUser(1);
 		dbproc.closeCon();
 
-		System.out.println("테스트ㅎㅎ");
 
 		TFaceRecord tRecode = new TFaceRecord();
 		tRecode.menuEnrollFace();
 		String match_file_name = tRecode.menuMatchFace();
 
-		System.out.println("테스트0");
 
 		try {
 			bw = new BufferedWriter(new OutputStreamWriter(
@@ -123,20 +114,18 @@ public class FileServerThread extends Thread {
 			}
 		} else {
 			try {
-				bw.write(match_file_name + "\n");
+				bw.write("error" + "\n");
 				System.out.println("0보냄");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
 
-		System.out.println("테스트1");
 		try {
 			bw.flush();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		System.out.println("테스트2");
 
 	}
 }
