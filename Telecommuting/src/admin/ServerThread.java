@@ -40,6 +40,8 @@ public class ServerThread extends Thread {
 					br.close();
 					bw.close();
 					s.close();
+					
+					break;
 				} else {
 					server.broadcast(msg);
 				}
