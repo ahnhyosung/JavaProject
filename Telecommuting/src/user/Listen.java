@@ -30,6 +30,9 @@ public class Listen extends Thread {
 
 						name.add(sToken.nextToken());
 						user.setListParticipant(name);
+					} else if (str.equals("OutUser")) {
+						name.remove(Integer.parseInt(sToken.nextToken()));
+						user.setListParticipant(name);
 					} else {
 						user.setTextArea_content(msg);
 					}
@@ -51,7 +54,7 @@ public class Listen extends Thread {
 				}
 				System.out.println("client socket close");
 			}
-		} 
+		}
 	}
 
 }

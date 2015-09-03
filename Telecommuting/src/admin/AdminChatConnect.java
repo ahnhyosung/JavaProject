@@ -14,9 +14,8 @@ public class AdminChatConnect extends Thread {
 
 	private ServerSocket serverSocket;
 	private Socket socket;
-	private Vector<ServerThread> vector = new Vector<>();
-	private Vector<String> vector_user_list = new Vector<>();
-	private int index = 0;
+	public Vector<ServerThread> vector = new Vector<>();
+	public Vector<String> vector_user_list = new Vector<>();
 	private AdminChatPanel admin;
 
 	private boolean flag = true;
@@ -44,20 +43,20 @@ public class AdminChatConnect extends Thread {
 				System.out.println("접속 하였습니다.");
 
 				ServerThread thread = new ServerThread(this, socket);
-				vector.add(index, thread);
-				vector.get(index).start();
-				index++;
+				vector.add(thread);
+				vector.get(vector.size() - 1).start();
 
 				if (flag) {
+					vector.get(vector.size() - 1).userName = "관리자";
 					broadcast("NewUser:관리자");
 					flag = false;
 
 				} else {
-					int num = index - 1;
 					for (String name : vector_user_list) {
-						vector.get(num).speakToMsg("OriUser:" + name);
+						vector.get(vector.size() - 1).speakToMsg(
+								"OriUser:" + name);
 					}
-					
+
 				}
 
 			}
@@ -70,17 +69,17 @@ public class AdminChatConnect extends Thread {
 
 	public void ExitServer() {
 		try {
-			for (int i = 0; i < index; i++) {
+			for (int i = 0; i < vector.size(); i++) {
 				System.out.println("요기요1 " + i);
 				vector.get(i).interrupt();
 				System.out.println("요기요2 " + i);
-//				vector.get(i).br.close();
-//				System.out.println("요기요3 " + i);
-//				vector.get(i).bw.close();
+				// vector.get(i).br.close();
+				// System.out.println("요기요3 " + i);
+				// vector.get(i).bw.close();
 				System.out.println("요기요4 " + i);
 				vector.get(i).s.close();
 				System.out.println("요기요5 " + i);
-				
+
 			}
 			vector.clear();
 			serverSocket.close();

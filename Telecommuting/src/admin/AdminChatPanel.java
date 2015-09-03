@@ -51,7 +51,7 @@ public class AdminChatPanel extends JPanel {
 
 	private AdminChatConnect serverStart;
 	private AdminChatPanel admin = this;
-	
+
 	Vector<String> name = new Vector<String>();
 
 	/**
@@ -207,10 +207,16 @@ public class AdminChatPanel extends JPanel {
 					System.out.println(msg);
 
 					StringTokenizer sToken = new StringTokenizer(msg, ":");
+					String str = sToken.nextToken();
 
-					if (sToken.nextToken().equals("NewUser")) {
-						
+					if (str.equals("NewUser")) {
+
 						name.add(sToken.nextToken());
+						list_participant.setListData(name);
+						System.out.println("JList에 " + name + "가 추가됨, name의 크기 : " + name.size());
+					} else if (str.equals("OutUser")) {
+						System.out.println("요까지옴");
+						name.remove(Integer.parseInt(sToken.nextToken()));
 						list_participant.setListData(name);
 					} else {
 
@@ -219,6 +225,7 @@ public class AdminChatPanel extends JPanel {
 								.getText().length());
 
 					}
+
 				} catch (IOException e) {
 					try {
 						ServerListen.interrupted();
