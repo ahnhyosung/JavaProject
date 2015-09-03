@@ -39,7 +39,7 @@ public class UserChatPanel extends JPanel {
 	private JButton button_participate; // 회의방 참가 버튼
 	private JButton button_exit; // 회의방 종료 버튼
 	private JPanel panel;		// 대화내용 패널
-	private JTextArea textArea_content;		//대화 내용 area 소켓하고 연결		
+	public JTextArea textArea_content;		//대화 내용 area 소켓하고 연결		
 	JList list_participant; // 채팅방 참가자들 목록
 	
 	private BufferedReader br;

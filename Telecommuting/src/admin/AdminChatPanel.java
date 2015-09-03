@@ -208,6 +208,7 @@ public class AdminChatPanel extends JPanel {
 
 					StringTokenizer sToken = new StringTokenizer(msg, ":");
 					String str = sToken.nextToken();
+					
 
 					if (str.equals("NewUser")) {
 
@@ -218,6 +219,10 @@ public class AdminChatPanel extends JPanel {
 						System.out.println("요까지옴");
 						name.remove(Integer.parseInt(sToken.nextToken()));
 						list_participant.setListData(name);
+					} else if (msg.equals("관리자가 서버를 종료합니다.")){
+						name.removeAllElements();
+						list_participant.setListData(name);
+						textArea_content.removeAll();
 					} else {
 
 						textArea_content.append(msg + "\n");
