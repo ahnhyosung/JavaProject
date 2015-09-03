@@ -71,10 +71,16 @@ public class AdminChatConnect extends Thread {
 	public void ExitServer() {
 		try {
 			for (int i = 0; i < index; i++) {
+				System.out.println("요기요1 " + i);
 				vector.get(i).interrupt();
-				vector.get(i).br.close();
-				vector.get(i).bw.close();
+				System.out.println("요기요2 " + i);
+//				vector.get(i).br.close();
+//				System.out.println("요기요3 " + i);
+//				vector.get(i).bw.close();
+				System.out.println("요기요4 " + i);
 				vector.get(i).s.close();
+				System.out.println("요기요5 " + i);
+				
 			}
 			vector.clear();
 			serverSocket.close();
