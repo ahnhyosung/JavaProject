@@ -82,7 +82,7 @@ public class ServerThread extends Thread {
 
 	public void speakToMsg(String msg) {
 		try {
-			System.out.println("출력!!! : " + msg);
+			System.out.println("출력!!!z : " + msg);
 			bw.write(msg + "\n");
 			bw.flush();
 

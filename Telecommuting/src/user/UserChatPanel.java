@@ -34,10 +34,10 @@ public class UserChatPanel extends JPanel {
 
 	
 	private JTextField textField_sentence; // 대화 입력 텍스트 필드
-	private JTextField textField_ip; // IP 입력 테스트 필드
-	private JTextField textField_portnum; // 포트 번호 입력 테스트 필드
-	private JButton button_participate; // 회의방 참가 버튼
-	private JButton button_exit; // 회의방 종료 버튼
+	public JTextField textField_ip; // IP 입력 테스트 필드
+	public JTextField textField_portnum; // 포트 번호 입력 테스트 필드
+	public JButton button_participate; // 회의방 참가 버튼
+	public JButton button_exit; // 회의방 종료 버튼
 	private JPanel panel;		// 대화내용 패널
 	public JTextArea textArea_content;		//대화 내용 area 소켓하고 연결		
 	JList list_participant; // 채팅방 참가자들 목록
@@ -162,6 +162,10 @@ public class UserChatPanel extends JPanel {
 					bw.write("NewUser:" + userName + "\n");
 					bw.flush();
 					
+					listen = new Listen(user, br);	
+					button_participate.setEnabled(false);
+					button_exit.setEnabled(true);
+					
 				} catch (NumberFormatException e1) {
 					System.out.println("ip와 port 형변환 문제!");
 				} catch (UnknownHostException e1) {
@@ -170,7 +174,6 @@ public class UserChatPanel extends JPanel {
 					JOptionPane.showMessageDialog(null, "connerct error");
 				}
 				
-				listen = new Listen(user, br);				
 			}
 		});
 		add(button_participate);
@@ -199,14 +202,24 @@ public class UserChatPanel extends JPanel {
 						System.out.println("소켓이 안끊김");
 					}
 				}
+				
+				button_participate.setEnabled(true);
+				button_exit.setEnabled(false);
 					
 			}
 		});
+		button_exit.setEnabled(false);
 		add(button_exit);
 	}
 
 	public void setListParticipant(Vector<String> name) {
 		list_participant.setListData(name);
+	}
+	
+	public void enableTextField() {
+		System.out.println("음???");
+		textField_ip.setEnabled(true);
+		textField_portnum.setEnabled(true);
 	}
 	
 }

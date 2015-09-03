@@ -89,8 +89,10 @@ public class AdminChatPanel extends JPanel {
 					serverBw.write("관리자: " + sendMsg + "\n");
 					serverBw.flush();
 					textField_sentence.setText("");
-				} catch (IOException e1) {
-					System.out.println("이미 방이 닫혔습니다.");
+
+				} catch (IOException | NullPointerException e2) {
+					textArea_content.append("채팅방이 닫혀있습니다.\n");
+					textField_sentence.setText("");
 				}
 
 			}
@@ -141,6 +143,9 @@ public class AdminChatPanel extends JPanel {
 				if (checkPort() != -1) {
 					int port = checkPort();
 					textField_portnum.setEditable(false);
+					button_create.setEnabled(false);
+					button_exit.setEnabled(true);
+					textArea_content.setText("");
 					serverStart = new AdminChatConnect(admin, port);
 				}
 			}
@@ -162,8 +167,9 @@ public class AdminChatPanel extends JPanel {
 					System.out.println(3);
 					mySocket.close();
 					System.out.println(4);
-					textField_portnum.setText("");
 					textField_portnum.setEditable(true);
+					button_create.setEnabled(true);
+					button_exit.setEnabled(false);
 				} catch (NullPointerException e1) {
 					JOptionPane.showMessageDialog(null, "회의방을 먼저 개설하세요");
 				} catch (IOException e1) {
@@ -172,6 +178,7 @@ public class AdminChatPanel extends JPanel {
 			}
 
 		});
+		button_exit.setEnabled(false);
 		add(button_exit);
 
 	}
@@ -191,6 +198,7 @@ public class AdminChatPanel extends JPanel {
 		} catch (IOException e) {
 			System.out.println("포트 중복인데 일어날일이 없다.");
 			System.out.println("이상없음");
+			System.out.println(e.getMessage());
 			// ServerListen.interrupted();
 		}
 
@@ -203,32 +211,39 @@ public class AdminChatPanel extends JPanel {
 		public void run() {
 			while (true) {
 				try {
+					System.out.println("msg를 받기전");
 					String msg = serverBr.readLine();
-					System.out.println(msg);
+					System.out.println("msg : " + msg);
 
-					StringTokenizer sToken = new StringTokenizer(msg, ":");
-					String str = sToken.nextToken();
-					
+					if (msg != null) {
 
-					if (str.equals("NewUser")) {
+						StringTokenizer sToken = new StringTokenizer(msg, ":");
+						String str = sToken.nextToken();
+						System.out.println(msg + ", 여길 안타???ㄷㄷㄷ");
 
-						name.add(sToken.nextToken());
-						list_participant.setListData(name);
-						System.out.println("JList에 " + name + "가 추가됨, name의 크기 : " + name.size());
-					} else if (str.equals("OutUser")) {
-						System.out.println("요까지옴");
-						name.remove(Integer.parseInt(sToken.nextToken()));
-						list_participant.setListData(name);
-					} else if (msg.equals("관리자가 서버를 종료합니다.")){
-						name.removeAllElements();
-						list_participant.setListData(name);
-						textArea_content.removeAll();
+						if (str.equals("NewUser")) {
+							name.add(sToken.nextToken());
+							list_participant.setListData(name);
+							System.out.println("JList에 " + name
+									+ "가 추가됨, name의 크기 : " + name.size());
+						} else if (str.equals("OutUser")) {
+							System.out.println("요까지옴");
+							name.remove(Integer.parseInt(sToken.nextToken()));
+							list_participant.setListData(name);
+						} else if (msg.equals("관리자가 서버를 종료합니다.")) {
+							name.removeAllElements();
+							list_participant.setListData(name);
+							textArea_content.setText("");
+						} else {
+
+							textArea_content.append(msg + "\n");
+							textArea_content.setCaretPosition(textArea_content
+									.getText().length());
+
+						}
+
 					} else {
-
-						textArea_content.append(msg + "\n");
-						textArea_content.setCaretPosition(textArea_content
-								.getText().length());
-
+						throw new IOException();
 					}
 
 				} catch (IOException e) {
@@ -237,6 +252,8 @@ public class AdminChatPanel extends JPanel {
 						serverBr.close();
 						serverBw.close();
 						mySocket.close();
+
+						break;
 
 					} catch (IOException e1) {
 					}

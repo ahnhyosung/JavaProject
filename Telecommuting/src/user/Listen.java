@@ -19,7 +19,7 @@ public class Listen extends Thread {
 
 	@Override
 	public void run() {
-		if (user.socket.isConnected()) {
+		if (user.socket != null && user.socket.isConnected()) {
 			try {
 				while (true) {
 					String msg;
@@ -36,7 +36,12 @@ public class Listen extends Thread {
 					} else if (msg.equals("관리자가 서버를 종료합니다.")){
 						name.removeAllElements();
 						user.setListParticipant(name);
-						user.textArea_content.setText("");
+						user.textArea_content.append(msg);
+						user.enableTextField();
+						user.button_participate.setEnabled(true);
+						user.button_exit.setEnabled(false);
+					} else {
+						user.setTextArea_content(msg);
 					}
 
 				}

@@ -47,6 +47,7 @@ public class AdminChatConnect extends Thread {
 				vector.get(vector.size() - 1).start();
 
 				if (flag) {
+					System.out.println("관리자의 특권이여!");
 					vector.get(vector.size() - 1).userName = "관리자";
 					broadcast("NewUser:관리자");
 					flag = false;
@@ -83,6 +84,7 @@ public class AdminChatConnect extends Thread {
 			}
 			vector.clear();
 			serverSocket.close();
+			flag = true;
 		} catch (IOException e) {
 			System.out.println("서버소켓 닫혔다.");
 		}
