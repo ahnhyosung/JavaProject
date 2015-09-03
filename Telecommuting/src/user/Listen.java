@@ -36,7 +36,7 @@ public class Listen extends Thread {
 					} else if (msg.equals("관리자가 서버를 종료합니다.")){
 						name.removeAllElements();
 						user.setListParticipant(name);
-						user.textArea_content.setText(null);
+						user.textArea_content.setText("");
 					}
 
 				}
