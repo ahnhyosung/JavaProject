@@ -166,6 +166,8 @@ public class UserChatPanel extends JPanel {
 					button_participate.setEnabled(false);
 					button_exit.setEnabled(true);
 					
+					textArea_content.setText("");
+					
 				} catch (NumberFormatException e1) {
 					System.out.println("ip와 port 형변환 문제!");
 				} catch (UnknownHostException e1) {
@@ -218,8 +220,8 @@ public class UserChatPanel extends JPanel {
 	
 	public void enableTextField() {
 		System.out.println("음???");
-		textField_ip.setEnabled(true);
-		textField_portnum.setEnabled(true);
+		textField_ip.setEditable(true);
+		textField_portnum.setEditable(true);
 	}
 	
 }
