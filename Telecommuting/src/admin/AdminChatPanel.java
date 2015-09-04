@@ -228,8 +228,10 @@ public class AdminChatPanel extends JPanel {
 									+ "가 추가됨, name의 크기 : " + name.size());
 						} else if (str.equals("OutUser")) {
 							System.out.println("요까지옴");
-							name.remove(Integer.parseInt(sToken.nextToken()));
+							String tempName = sToken.nextToken();
+							name.remove(Integer.parseInt(tempName));
 							list_participant.setListData(name);
+							textArea_content.append(tempName + "님이 종료했습니다.\n");
 						} else if (msg.equals("관리자가 서버를 종료합니다.")) {
 							name.removeAllElements();
 							list_participant.setListData(name);
