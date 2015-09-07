@@ -31,8 +31,9 @@ public class Listen extends Thread {
 						name.add(sToken.nextToken());
 						user.setListParticipant(name);
 					} else if (str.equals("OutUser")) {
-						String tempName = sToken.nextToken();
-						name.remove(Integer.parseInt(tempName));
+						String tempNum = sToken.nextToken();
+						String tempName = name.get(Integer.parseInt(tempNum));
+						name.remove(Integer.parseInt(tempNum));
 						user.setListParticipant(name);
 						user.textArea_content.append(tempName + "님이 종료했습니다.\n");
 					} else if (msg.equals("관리자가 서버를 종료합니다.")) {
