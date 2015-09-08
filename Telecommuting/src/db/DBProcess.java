@@ -339,9 +339,7 @@ public class DBProcess {
 				user = new Vector<String>();
 
 				user.add(rs.getString(1));
-				SimpleDateFormat sdfCurrent = new SimpleDateFormat(
-						"yyyy-mm-dd hh:mm:ss");
-				String dateStr = sdfCurrent.format(rs.getTimestamp(2));
+				String dateStr = rs.getTimestamp(2).toString();
 				user.add(dateStr);
 
 				user.add(rs.getString(3));
