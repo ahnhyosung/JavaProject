@@ -26,7 +26,7 @@ import javax.swing.border.SoftBevelBorder;
 import javax.swing.border.BevelBorder;
 import javax.swing.UIManager;
 
-public class AdminSearchPanel extends JPanel {
+public class test extends JPanel {
 	private JTable table; // 테이블
 	private JComboBox comboBox_name; // 이름 콤보박스
 	public static JComboBox comboBox_date; // 날짜 콤보박스
@@ -41,7 +41,7 @@ public class AdminSearchPanel extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public AdminSearchPanel() {
+	public test() {
 		setLayout(null);
 		setBackground(Color.WHITE);
 
@@ -98,7 +98,6 @@ public class AdminSearchPanel extends JPanel {
 		add(new JScrollPane());
 
 		scrollPane = new JScrollPane();
-		scrollPane.getViewport().setBackground(Color.WHITE);
 		scrollPane.setBounds(52, 300, 893, 280);
 		add(scrollPane);
 

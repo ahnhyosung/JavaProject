@@ -17,8 +17,10 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Time;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Random;
+import java.util.Vector;
 
 public class DBProcess {
 
@@ -227,7 +229,7 @@ public class DBProcess {
 	public long userAttCalc(String match_file_name, Date levdate) {
 		Statement stmt = null;
 		ResultSet rs = null;
-		
+
 		long diffHours = 0;
 
 		try {
@@ -235,7 +237,7 @@ public class DBProcess {
 
 			String sql = "select Max(attdate) from attendance where user_name_code = '"
 					+ match_file_name + "' and attstate like '출근%'";
-			
+
 			System.out.println(sql);
 			rs = stmt.executeQuery(sql);
 			rs.next();
@@ -266,7 +268,7 @@ public class DBProcess {
 
 			Date date = new Date();
 			Timestamp timestamp = new Timestamp(date.getTime());
-			
+
 			long workHours = userAttCalc(match_file_name, date);
 			System.out.println("일한 시간 : " + workHours);
 			String state = "퇴근";
@@ -289,5 +291,104 @@ public class DBProcess {
 				e.printStackTrace();
 			}
 		}
+	}
+
+	public Vector<Vector<String>> searchUser(String user_name_code,
+			String date, String state) {
+		Vector<String> sql = new Vector<String>();
+
+		if (!user_name_code.equals("") || !date.equals("") || !state.equals("")) {
+			sql.add("select user_name_code, attdate, attstate from attendance where ");
+		} else {
+			sql.add("select user_name_code, attdate, attstate from attendance ");
+		}
+
+		if (!user_name_code.equals("")) {
+			sql.add("user_name_code='" + user_name_code + "'");
+		}
+
+		if (!date.equals("")) {
+			sql.add("date_format(attdate, '%Y-%m-%d') = '" + date + "'");
+		}
+
+		if (!state.equals("")) {
+			sql.add("attstate='" + state + "'");
+		}
+
+		String sqlStr = sql.get(0);
+		for (int i = 1; i < sql.size(); i++) {
+			sqlStr += sql.get(i);
+			if (i != sql.size() - 1) {
+				sqlStr += " and ";
+			}
+		}
+
+		Statement stmt = null;
+		ResultSet rs = null;
+
+		Vector<Vector<String>> resultUser = new Vector<Vector<String>>();
+		Vector<String> user;
+
+		try {
+			stmt = con.createStatement();
+
+			System.out.println(sqlStr);
+			rs = stmt.executeQuery(sqlStr);
+
+			while (rs.next()) {
+				user = new Vector<String>();
+
+				user.add(rs.getString(1));
+				SimpleDateFormat sdfCurrent = new SimpleDateFormat(
+						"yyyy-mm-dd hh:mm:ss");
+				String dateStr = sdfCurrent.format(rs.getTimestamp(2));
+				user.add(dateStr);
+
+				user.add(rs.getString(3));
+
+				resultUser.add(user);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				stmt.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+
+		return resultUser;
+	}
+
+	public Vector<String> searchUserAll() {
+		
+		Vector<String> userList = new Vector<String>();
+		userList.add("");
+		Statement stmt = null;
+		ResultSet rs;
+		
+		try {
+			String query = "select distinct user_name_code from attendance";
+			stmt = con.createStatement();
+			rs = stmt.executeQuery(query);
+
+			while (rs.next()) {
+
+				userList.add(rs.getString(1));
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				stmt.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return userList;
 	}
 }
