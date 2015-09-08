@@ -29,7 +29,7 @@ class SwingCalender extends JPanel implements ActionListener {
 	JLabel time;
 	JPanel panWest;
 	JPanel panNorth;
-	
+
 	JTextField txtMonth, txtYear;
 	JTextField txtTime;
 	BorderLayout bLayout = new BorderLayout();
@@ -143,12 +143,9 @@ class SwingCalender extends JPanel implements ActionListener {
 			day = Integer.parseInt(ae.getActionCommand());
 			// 버튼의 밸류 즉 1,2,3.... 문자를 정수형으로 변환하여 클릭한 날짜를 바꿔준다.
 
-			AdminSearchPanel.comboBox_date.setModel(new DefaultComboBoxModel(
-					new String[] {
-							"",
-							year + "-" + String.format("%02d", month) + "-"
-									+ String.format("%02d", day) }));
-			AdminSearchPanel.comboBox_date.setSelectedIndex(1);
+			AdminSearchPanel.textField_date.setText(year + "-"
+					+ String.format("%02d", month) + "-"
+					+ String.format("%02d", day));
 			calSet();
 		}
 	}// end actionperformed()

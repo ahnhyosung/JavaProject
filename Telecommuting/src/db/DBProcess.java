@@ -322,6 +322,8 @@ public class DBProcess {
 				sqlStr += " and ";
 			}
 		}
+		
+		sqlStr += "order by attdate desc";
 
 		Statement stmt = null;
 		ResultSet rs = null;
