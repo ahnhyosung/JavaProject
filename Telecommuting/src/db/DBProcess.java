@@ -15,6 +15,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Time;
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.Random;
 
 public class DBProcess {
@@ -188,4 +191,103 @@ public class DBProcess {
 
 	}
 
+	@SuppressWarnings("deprecation")
+	public void userAttendance(String match_file_name) {
+		PreparedStatement pstmt = null;
+
+		try {
+			pstmt = con
+					.prepareStatement("insert into attendance(user_name_code, attdate, attstate) values(?,?,?)");
+			pstmt.setString(1, match_file_name);
+
+			Date date = new Date();
+			Timestamp timestamp = new Timestamp(date.getTime());
+			String state = "출근";
+			if (date.getHours() > 8 && date.getMinutes() > 0) {
+				state = "출근(지각)";
+			}
+
+			pstmt.setTimestamp(2, timestamp);
+
+			pstmt.setString(3, state);
+
+			pstmt.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				pstmt.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	public long userAttCalc(String match_file_name, Date levdate) {
+		Statement stmt = null;
+		ResultSet rs = null;
+		
+		long diffHours = 0;
+
+		try {
+			stmt = con.createStatement();
+
+			String sql = "select Max(attdate) from attendance where user_name_code = '"
+					+ match_file_name + "' and attstate like '출근%'";
+			
+			System.out.println(sql);
+			rs = stmt.executeQuery(sql);
+			rs.next();
+			Date attdate = rs.getTimestamp(1);
+
+			long diff = levdate.getTime() - attdate.getTime();
+			diffHours = diff / (60 * 60 * 1000);
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				stmt.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return diffHours;
+	}
+
+	public void userLeave(String match_file_name) {
+		PreparedStatement pstmt = null;
+
+		try {
+			pstmt = con
+					.prepareStatement("insert into attendance(user_name_code, attdate, attstate) values(?,?,?)");
+			pstmt.setString(1, match_file_name);
+
+			Date date = new Date();
+			Timestamp timestamp = new Timestamp(date.getTime());
+			
+			long workHours = userAttCalc(match_file_name, date);
+			System.out.println("일한 시간 : " + workHours);
+			String state = "퇴근";
+			if (workHours < 9) {
+				state = "퇴근(근무시간부족)";
+			}
+
+			pstmt.setTimestamp(2, timestamp);
+
+			pstmt.setString(3, state);
+
+			pstmt.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				pstmt.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 }

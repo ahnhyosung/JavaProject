@@ -13,7 +13,9 @@ import java.net.Socket;
 import javax.swing.JOptionPane;
 
 import main.MainFrame;
+import main.MainMenuBar;
 import camera.FaceTrackingView;
+import db.DBProcess;
 
 public class FileClient {
 	private String hostname;
@@ -22,10 +24,10 @@ public class FileClient {
 	public Socket socket;
 	private BufferedOutputStream out;
 
-	public FileClient() {
+	public FileClient(int i) {
 		try {
 			socket = new Socket(InetAddress.getByName("127.0.0.1"), 9999);
-			new Listen(socket).start();
+			new Listen(socket, i).start();
 			new Speak(socket).start();
 		} catch (ConnectException e) {
 			System.out.println("관리자 서버에 접속할 수 없습니다.");
@@ -37,9 +39,11 @@ public class FileClient {
 	public class Listen extends Thread {
 		Socket listen_socket;
 		BufferedReader br;
+		int attORlev;
 
-		public Listen(Socket listen_socket) {
+		public Listen(Socket listen_socket, int i) {
 			this.listen_socket = listen_socket;
+			attORlev = i;
 
 			try {
 				br = new BufferedReader(new InputStreamReader(
@@ -62,14 +66,29 @@ public class FileClient {
 
 						FaceTrackingView.drawingTimer.stop();
 						FaceTrackingView.closeCamera();
-						
-						System.out.println("클라이언트에서 받음 : " + match_file_name);
-						MainFrame.frame.setJMenuBar(new UserMenuBar(match_file_name));
 
-						MainFrame.contentPane.removeAll();
-						MainFrame.contentPane.repaint();
-						MainFrame.frame.setTitle("재택근무관리 프로그램 (사용자)");
-						MainFrame.frame.setVisible(true);
+						System.out.println("클라이언트에서 받음 : " + match_file_name);
+						MainFrame.frame.setJMenuBar(new UserMenuBar(
+								match_file_name));
+
+						if (attORlev == 0) {
+							MainFrame.contentPane.removeAll();
+							MainFrame.contentPane.repaint();
+							MainFrame.frame.setTitle("재택근무관리 프로그램 (사용자)");
+							MainFrame.frame.setVisible(true);
+
+							new DBProcess().userAttendance(match_file_name);
+							
+						} else if (attORlev == 1) {
+							MainFrame.frame.setJMenuBar(new MainMenuBar());
+							MainFrame.contentPane.removeAll();
+							MainFrame.contentPane.repaint();
+							MainFrame.frame.setTitle("재택근무관리 프로그램");
+							MainFrame.frame.setVisible(true);
+							
+							new DBProcess().userLeave(match_file_name);
+						}
+
 						break;
 					} else {
 						JOptionPane.showMessageDialog(MainFrame.frame,

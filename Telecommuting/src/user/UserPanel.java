@@ -40,7 +40,7 @@ public class UserPanel extends JPanel {
 			if (e.getSource() == button_gotowork) { // 출근 버튼을 누를 시
 	
 				new DBProcess().fileIO(null, 1);
-				fc = new FileClient();
+				fc = new FileClient(0);
 
 			}
 		}
