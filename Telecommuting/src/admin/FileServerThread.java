@@ -67,7 +67,6 @@ public class FileServerThread extends Thread {
 			while (true) {
 
 				bytesRead = in.read(buffer, 0, 256);
-				System.out.println(bytesRead);
 
 				if (bytesRead < 256) {
 					dos.write(buffer, 0, bytesRead);

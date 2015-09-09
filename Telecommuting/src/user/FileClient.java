@@ -144,7 +144,6 @@ public class FileClient {
 
 				while (true) {
 					bytesRead = dis.read(buffer);
-					System.out.println(bytesRead);
 
 					if (bytesRead == -1) {
 						break;
