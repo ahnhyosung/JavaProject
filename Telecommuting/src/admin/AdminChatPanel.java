@@ -3,9 +3,12 @@ package admin;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.ServerSocket;
 
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -19,6 +22,7 @@ import javax.swing.plaf.ButtonUI;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
@@ -60,20 +64,38 @@ public class AdminChatPanel extends JPanel {
 	public AdminChatPanel() {
 		setLayout(null);
 
+		Vector<BufferedImage> bImage = new Vector<BufferedImage>();
+		try {
+			bImage.add(ImageIO.read(new File("img\\ywj.jpg")));
+			bImage.add(ImageIO.read(new File("img\\lsg.jpg")));
+			bImage.add(ImageIO.read(new File("img\\ahs.jpg")));
+			bImage.add(ImageIO.read(new File("img\\yjh.jpg")));
+		} catch (IOException e3) {
+			e3.printStackTrace();
+		}
+
 		JButton button_user3 = new JButton("사용자3");
 		button_user3.setBounds(667, 287, 294, 257);
+		button_user3.setIcon(new ImageIcon(bImage.get(3).getScaledInstance(294,
+				257, 0)));
 		add(button_user3);
 
 		JButton button_user1 = new JButton("사용자1");
 		button_user1.setBounds(667, 26, 294, 257);
+		button_user1.setIcon(new ImageIcon(bImage.get(1).getScaledInstance(294,
+				257, 0)));
 		add(button_user1);
 
 		JButton button_admin = new JButton("관리자");
 		button_admin.setBounds(361, 26, 294, 257);
+		button_admin.setIcon(new ImageIcon(bImage.get(0).getScaledInstance(294,
+				257, 0)));
 		add(button_admin);
 
 		JButton button_user2 = new JButton("사용자2");
 		button_user2.setBounds(361, 287, 294, 257);
+		button_user2.setIcon(new ImageIcon(bImage.get(2).getScaledInstance(294,
+				257, 0)));
 		add(button_user2);
 
 		textField_sentence = new JTextField();
@@ -229,7 +251,8 @@ public class AdminChatPanel extends JPanel {
 						} else if (str.equals("OutUser")) {
 							System.out.println("요까지옴");
 							String tempNum = sToken.nextToken();
-							String tempName = name.get(Integer.parseInt(tempNum));
+							String tempName = name.get(Integer
+									.parseInt(tempNum));
 							name.remove(Integer.parseInt(tempNum));
 							list_participant.setListData(name);
 							textArea_content.append(tempName + "님이 종료했습니다.\n");
